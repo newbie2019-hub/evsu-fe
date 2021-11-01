@@ -34,6 +34,7 @@
        <v-text-field type="text" class="mt-4" hide-details="auto" readonly v-model="selectedApplicant.info.contact_number" outlined dense label="Contact Number"></v-text-field>
        <v-text-field type="text" class="mt-4" hide-details="auto" readonly v-model="selectedApplicant.info.gender" outlined dense label="Gender"></v-text-field>
        <v-text-field type="text" class="mt-4" hide-details="auto" readonly v-model="selectedApplicant.info.birthday" outlined dense label="Birthday"></v-text-field>
+       <v-text-field type="text" class="mt-4" hide-details="auto" readonly v-model="selectedApplicant.info.marital_status" outlined dense label="Marital Status"></v-text-field>
        <v-textarea type="text" class="mt-4" hide-details="auto" readonly v-model="selectedApplicant.info.street" rows="2" outlined dense label="Street"></v-textarea>
        <v-textarea type="text" class="mt-4" hide-details="auto" readonly v-model="selectedApplicant.info.barangay" rows="2" outlined dense label="Barangay"></v-textarea>
        <v-textarea type="text" class="mt-4" hide-details="auto" readonly v-model="selectedApplicant.info.town" rows="2" outlined dense label="Town"></v-textarea>
@@ -57,6 +58,11 @@
           <v-text-field type="number" class="mt-4" readonly hide-details="auto" v-model="selectedApplicant.familyinfo.house_member" outlined dense label="House Member"></v-text-field>
           <v-text-field type="text" class="mt-4" readonly hide-details="auto" v-model="selectedApplicant.familyinfo.dswd_household_number" outlined dense label="Household Number"></v-text-field>
           <v-text-field type="text" class="mt-4" readonly hide-details="auto" v-model="selectedApplicant.familyinfo.fourps" outlined dense label="4ps (Optional)"></v-text-field>
+      <h4 class="mt-5">Attached Files</h4>
+      <v-divider class="mt-2 mb-4"></v-divider>
+      <v-layout column>
+        <a v-on:click.prevent="downloadFile(file)" class="text-decoration-none" v-for="(file, i) in selectedApplicant.files" :key="i">{{file.file}}</a>
+      </v-layout>
       <v-layout class="mt-5">
          <v-dialog
             v-model="dialogDelete"
@@ -99,6 +105,7 @@
  </div>
 </template>
 <script>
+import API from '../../../store/base/index'
 import { mapState } from 'vuex'
 export default {
   data(){
@@ -113,9 +120,25 @@ export default {
     ...mapState('applicant', ['selectedApplicant'])
   },
   mounted(){
+    document.title = "View Applicant"
    if(this.selectedApplicant == 0) return this.$router.back()
   },
   methods: {
+    async downloadFile(file){
+        await API.get(`user/download/${file.file}`, {responseType: 'blob'}).then(response => {
+            var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+            var fileLink = document.createElement('a');
+            
+            fileLink.href = fileURL;
+            fileLink.setAttribute('download', file.file);
+            document.body.appendChild(fileLink);
+            
+            fileLink.click();
+           })
+          .catch(error => {
+              console.log({ error });
+        });
+    },
     async deleteApplicant() {
       this.delete_data.id = this.selectedApplicant.id
       const { status, data } = await this.$store.dispatch('applicant/deleteApplicant', this.delete_data);

@@ -31,6 +31,8 @@
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.middle_name" outlined dense label="Middle Name"></v-text-field>
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.last_name" outlined dense label="Last Name"></v-text-field>
              <v-select :items="gender" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="data.gender" label="Gender" dense></v-select>
+             <v-select :items="status" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="data.marital_status" label="Marital Status" dense></v-select>
+
             <v-dialog
                ref="dialog"
                v-model="birthdayModal"
@@ -70,6 +72,26 @@
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.zipcode" outlined dense label="Zip Code"></v-text-field>
              <v-select :items="programs" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="data.program" label="Program Name" dense></v-select>
              <v-select :items="yearlevel" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="data.year_level" label="Year Level" dense></v-select>
+              <v-file-input
+                accept="image/*,.docx"
+                placeholder="Attachments"
+                prepend-icon="mdi-paperclip"
+                v-model="data.fhefile"
+                :rules="[rules.required]"
+                chips
+                show-size
+                label="Attach FHE form"
+              ></v-file-input>
+              <v-file-input
+                accept="image/*,.docx"
+                placeholder="Attachments"
+                prepend-icon="mdi-paperclip"
+                v-model="data.eslip"
+                :rules="[rules.required]"
+                chips
+                show-size
+                label="Attach officially enrolled slip"
+              ></v-file-input>
              <v-btn
                color="primary" small class="mt-3"
                @click="currentStep = 2">
@@ -124,6 +146,7 @@
  </div>
 </template>
 <script>
+import API from '../../../../store/base/index'
 import testData from '@/assets/js/train.js'
 export default {
    data () {
@@ -155,6 +178,7 @@ export default {
         town: '',
         program: '',
         province: '',
+        filenames: [],
         zipcode: '',
         hasDisability: false,
         father_first_name: '',
@@ -172,6 +196,20 @@ export default {
        gender: [
         { value: "Male", text: "Male"},
         { value: "Female", text: "Female"},
+       ],
+       status: [
+         {
+           value: 'Single', text: 'Single'
+         },
+         {
+           value: 'Married', text: 'Married'
+         },
+         {
+           value: 'Widowed', text: 'Widowed'
+         },
+         {
+           value: 'Divorced', text: 'Divorced'
+         },
        ],
        yearlevel: [{value: 'I', text: 'I'},{value: 'II', text: 'II'},{value: 'III', text: 'III'},{value: 'IV', text: 'IV'},{value: 'V', text: 'V'}],
        programs: [
@@ -206,6 +244,41 @@ export default {
     async apply(){
      this.isValid = this.$refs.form.validate()
      if(this.isValid){
+       if(this.data.fhefile){
+         let formData = new FormData();
+
+          formData.append("fhefile", this.data.fhefile);
+
+          await API.post(`user/upload-files`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            },
+            }).then(response => {
+                this.data.filenames.push({name: response.data.msg});
+              })
+              .catch(error => {
+                  console.log({ error });
+          });
+       }
+
+       if(this.data.eslip){
+         let formData = new FormData();
+
+          formData.append("eslip", this.data.eslip);
+
+          await API.post(`user/upload-files`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            },
+            }).then(response => {
+              console.log(response.data.msg)
+                 this.data.filenames.push({name: response.data.msg});
+              })
+              .catch(error => {
+                  console.log({ error });
+              });
+       }
+
        this.isLoading = true
        const isQualified = testData(this.data)
        this.data.isQualified = isQualified
