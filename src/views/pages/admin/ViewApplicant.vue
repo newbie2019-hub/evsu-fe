@@ -56,6 +56,7 @@
           <v-text-field type="text" class="mt-4" readonly hide-details="auto" v-model="selectedApplicant.familyinfo.siblings_monthly_salary" outlined dense label="Siblings Monthly Salary"></v-text-field>
           <v-text-field type="number" class="mt-4" readonly hide-details="auto" v-model="selectedApplicant.familyinfo.house_member" outlined dense label="House Member"></v-text-field>
           <v-text-field type="text" class="mt-4" readonly hide-details="auto" v-model="selectedApplicant.familyinfo.dswd_household_number" outlined dense label="Household Number"></v-text-field>
+          <v-text-field type="text" class="mt-4" readonly hide-details="auto" v-model="selectedApplicant.familyinfo.fourps" outlined dense label="4ps (Optional)"></v-text-field>
       <v-layout class="mt-5">
          <v-dialog
             v-model="dialogDelete"

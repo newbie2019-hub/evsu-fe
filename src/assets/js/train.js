@@ -9,7 +9,7 @@ export default function testData(data){
 
   // console.log(data)
   const householdincome = parseFloat(data.father_monthly_salary) + parseFloat(data.mother_monthly_salary) + parseFloat(data.siblings_monthly_salary)
-  const lowincome = householdincome <= 20000
+  const lowincome = householdincome <= 30000
 
   const testData = [
    [data.hasDisability ? 'TRUE' : 'FALSE', data.father_monthly_salary, data.mother_monthly_salary, data.siblings_monthly_salary, lowincome ? 'TRUE' : 'FALSE', data.house_member]

@@ -40,10 +40,13 @@
              >
                <template v-slot:activator="{ on, attrs }">
                  <v-text-field
+                   class="pt-2"
                    v-model="data.birthday"
                    label="Date of Birth"
-                   prepend-icon="mdi-calendar"
                    readonly
+                   outlined
+                   dense
+                    hide-details="auto"
                    v-bind="attrs"
                    v-on="on"
                  ></v-text-field>
@@ -91,6 +94,7 @@
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.siblings_monthly_salary" outlined dense label="Siblings Monthly Salary"></v-text-field>
              <v-text-field type="number" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.house_member" outlined dense label="House Member"></v-text-field>
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.household_number" outlined dense label="Household Number"></v-text-field>
+             <v-text-field type="text" class="pt-2" hide-details="auto" v-model="data.fourps" outlined dense label="4Ps Number (Optional)"></v-text-field>
              <v-btn
                color="primary" small class="mt-3"
                @click="currentStep = 3">
