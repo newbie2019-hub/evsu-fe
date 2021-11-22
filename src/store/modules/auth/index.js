@@ -12,7 +12,9 @@ export default {
     userinfo: [],
     useraccount: [],
     signup: '',
-    token: localStorage.getItem('auth') || ''
+    accounts: [],
+    token: localStorage.getItem('auth') || '',
+    selectedAccount: [],
   },
   getters: {
     GET_USER(state) {
@@ -20,6 +22,12 @@ export default {
     }
   },
   mutations: {
+    SET_ACCOUNTS(state, data){
+      state.accounts = data
+    },
+    SET_VIEW_ACCOUNT(state, data){
+      state.selectedAccount = data.data
+    },
     SET_AUTH_ACC(state, data) {
       state.userinfo = data.user_info
       state.useraccount = data.user_account
@@ -93,8 +101,19 @@ export default {
 
       return res;
     },
-    async createAccount({commit}, payload){
+    async registerAccount({commit}, payload){
       const res = await API.post('/auth/user/store', payload).then(res => {
+
+        return res;
+      }).catch(err => {
+       return err.response;
+      })
+
+      return res;
+    },
+    async getAccounts({commit}){
+      const res = await API.get('/auth/admin/accounts').then(res => {
+        commit('SET_ACCOUNTS', res.data);
 
         return res;
       }).catch(err => {
@@ -196,6 +215,34 @@ export default {
    },
    async checkEmail({commit}, data){
     const res = await API.post('request/account/reset', data).then(res => {
+
+      return res;
+    }).catch(error => {
+      return error.response;
+    })
+
+    return res;
+   },
+   async deleteAccount({ commit }, payload) {
+    const res = await API.delete(`/admin/account/${payload.id}`).then(res => {
+        return res;
+    }).catch(err => {
+        return err.response
+    })
+
+    return res;
+   },
+   async approveAccount({ commit }, payload) {
+    const res = await API.put(`/admin/account/approve/${payload.id}`).then(res => {
+        return res;
+    }).catch(err => {
+        return err.response
+    })
+
+    return res;
+   },
+   async verifyEmail({commit}, data){
+    const res = await API.post('user/email/verify', data).then(res => {
 
       return res;
     }).catch(error => {

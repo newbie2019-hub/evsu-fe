@@ -6,10 +6,10 @@
       <v-icon small>mdi-home</v-icon>
     </v-btn>
 
-    <v-btn value="updates" v-on:click="$router.push('/user/updates')">
+    <!-- <v-btn value="updates" v-on:click="$router.push('/user/updates')">
       <span>Status</span>
       <v-icon small>mdi-heart</v-icon>
-    </v-btn>
+    </v-btn> -->
 <!-- 
     <v-btn value="nearby" v-on:click="$router.push('/user/records')">
       <span>Records</span>

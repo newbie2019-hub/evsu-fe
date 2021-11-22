@@ -1,12 +1,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/auth/Login.vue'
+const Select = () => import('../views/auth/Selection.vue')
+const Register = () => import('../views/auth/Register.vue')
+const VerifyEmail = () => import('../views/auth/VerifyEmail.vue')
+const ApplicantVerifyEmail = () => import('../views/auth/ApplicantVerifyEmail.vue')
 
 const Home = () => import ('@/views/pages/admin/Home.vue')
 const Records = () => import ('@/views/pages/admin/Records.vue')
 const ViewApplicant = () => import ('@/views/pages/admin/ViewApplicant.vue')
 
 const Scholar = () => import ('@/views/pages/admin/Scholars.vue')
+const Accounts = () => import ('@/views/pages/admin/Accounts.vue')
+const ViewAccount = () => import ('@/views/pages/admin/ViewAccount.vue')
 
 const Updates = () => import ('@/views/pages/admin/Updates.vue')
 const CreateUpdate = () => import ('@/views/pages/admin/Updates/NewUpdate.vue')
@@ -24,14 +30,37 @@ Vue.use(VueRouter)
 const routes = [
     {
         path: '/',
+        name: 'Select',
+        component: Select,
+        meta: { hasUser: true}
+    },
+    {
+        path: '/login',
         name: 'Login',
         component: Login,
         meta: { hasUser: true}
     },
     {
-        path: '/apply',
+        path: '/account',
+        name: 'VerifyEmail',
+        component: VerifyEmail,
+        meta: { hasUser: true}
+    },
+    {
+        path: '/applicant',
+        name: 'ApplicantVerifyEmail',
+        component: ApplicantVerifyEmail,
+        meta: { hasUser: true}
+    },
+    {
+        path: '/application',
         name: 'Apply',
         component: Apply
+    },
+    {
+        path: '/register',
+        name: 'Register',
+        component: Register
     },
     {
         path: '/home',
@@ -47,6 +76,13 @@ const routes = [
                 },
             },
             {
+                path: 'accounts',
+                name: 'Accounts',
+                components: {
+                    accounts: Accounts
+                },
+            },
+            {
                 path: 'records',
                 name: 'Records',
                 components: {
@@ -58,6 +94,13 @@ const routes = [
                 name: 'viewapplicant',
                 components: {
                     viewapplicant: ViewApplicant
+                },
+            },
+            {
+                path: 'account/view/:slug',
+                name: 'viewaccount',
+                components: {
+                    viewaccount: ViewAccount
                 },
             },
             {

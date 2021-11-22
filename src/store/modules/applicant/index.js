@@ -34,6 +34,16 @@ export default {
 
             return res;
         },
+        async verifyEmail({commit}, data){
+            const res = await API.post('user/applicant/email/verify', data).then(res => {
+        
+              return res;
+            }).catch(error => {
+              return error.response;
+            })
+        
+            return res;
+        },
         async saveApplicant({ commit }, payload) {
             const res = await API.post('/admin/applicant', payload).then(res => {
                 return res;

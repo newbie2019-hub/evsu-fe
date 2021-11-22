@@ -30,8 +30,11 @@
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.first_name" outlined dense label="First Name"></v-text-field>
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.middle_name" outlined dense label="Middle Name"></v-text-field>
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.last_name" outlined dense label="Last Name"></v-text-field>
+             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.ext_name" outlined dense label="Ext. Name"></v-text-field>
              <v-select :items="gender" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="data.gender" label="Gender" dense></v-select>
-             <v-select :items="status" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="data.marital_status" label="Marital Status" dense></v-select>
+             <!-- <v-select :items="status" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="data.marital_status" label="Marital Status" dense></v-select> -->
+             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.gwa" outlined dense label="GWA - Previous Sem"></v-text-field>
+             <v-text-field type="number" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.units" outlined dense label="Units Enrolled"></v-text-field>
 
             <v-dialog
                ref="dialog"
@@ -63,35 +66,9 @@
                  </v-btn>
                </v-date-picker>
              </v-dialog>
-             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]"  v-model="data.contact_number" outlined dense label="Contact Number"></v-text-field>
-             <v-checkbox v-model="data.hasDisability" label="Has Disability?" color="red darken-3" hide-details></v-checkbox>
-             <v-text-field type="text" class="pt-4" hide-details="auto" :rules="[rules.required]" v-model="data.street" outlined dense label="Street"></v-text-field>
-             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.barangay" outlined dense label="Barangay"></v-text-field>
-             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.town" outlined dense label="Town"></v-text-field>
-             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.province" outlined dense label="Province"></v-text-field>
-             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.zipcode" outlined dense label="Zip Code"></v-text-field>
              <v-select :items="programs" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="data.program" label="Program Name" dense></v-select>
              <v-select :items="yearlevel" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="data.year_level" label="Year Level" dense></v-select>
-              <v-file-input
-                accept="image/*,.docx"
-                placeholder="Attachments"
-                prepend-icon="mdi-paperclip"
-                v-model="data.fhefile"
-                :rules="[rules.required]"
-                chips
-                show-size
-                label="Attach FHE form"
-              ></v-file-input>
-              <v-file-input
-                accept="image/*,.docx"
-                placeholder="Attachments"
-                prepend-icon="mdi-paperclip"
-                v-model="data.eslip"
-                :rules="[rules.required]"
-                chips
-                show-size
-                label="Attach officially enrolled slip"
-              ></v-file-input>
+             
              <v-btn
                color="primary" small class="mt-3"
                @click="currentStep = 2">
@@ -101,10 +78,23 @@
 
            <v-stepper-step editable
              step="2">
-             Family Information
+             Address Information
            </v-stepper-step>
 
            <v-stepper-content step="2">
+             <v-text-field type="text" class="pt-1" hide-details="auto" :rules="[rules.required]" v-model="data.street" outlined dense label="Street"></v-text-field>
+             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.barangay" outlined dense label="Barangay"></v-text-field>
+             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.town" outlined dense label="Town"></v-text-field>
+             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.province" outlined dense label="Province"></v-text-field>
+             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.zipcode" outlined dense label="Zip Code"></v-text-field>
+             <v-btn
+               color="primary" small class="mt-3"
+               @click="currentStep = 3">
+               Next
+             </v-btn>
+           </v-stepper-content>
+
+           <!-- <v-stepper-content step="2">
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.father_first_name" outlined dense label="Father's First Name"></v-text-field>
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.father_middle_name" outlined dense label="Father's Middle Name"></v-text-field>
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.father_last_name" outlined dense label="Father's Last Name"></v-text-field>
@@ -122,15 +112,29 @@
                @click="currentStep = 3">
                Next
              </v-btn>
-           </v-stepper-content>
-
-           <v-stepper-step step="3"  editable>
-             Login Credentials
+           </v-stepper-content> -->
+           <v-stepper-step editable
+             step="3">
+             TES Grant Info
            </v-stepper-step>
 
            <v-stepper-content step="3">
-             <v-text-field type="email" class="pt-2" :rules="[rules.required, rules.email]" hide-details="auto" v-model="data.email" outlined dense label="Email Address"></v-text-field>
-             <v-text-field type="password" class="pt-2" :rules="[rules.required]" hide-details="auto" v-model="data.password" outlined dense label="Password"></v-text-field>
+             <p>Leave blank as the admin will input this fields.</p>
+             <v-text-field type="text" class="pt-2" hide-details="auto" v-model="data.tes_award" outlined dense label="TES Award Number"></v-text-field>
+             <v-text-field type="text" class="pt-2" hide-details="auto" v-model="data.application_number" outlined dense label="Application Number"></v-text-field>
+             <v-select :items="testype" class="pt-2" hide-details="auto" outlined v-model="data.tes_grant_type" label="Type of TES Grant" dense></v-select>
+           </v-stepper-content> 
+
+           <v-stepper-step step="4"  editable>
+             Contact Information
+           </v-stepper-step>
+
+           <v-stepper-content step="4">
+             <v-text-field type="email" class="pt-2" :rules="[rules.required, rules.email]" hide-details="auto" v-model="data.email" outlined dense label="Email Address 1"></v-text-field>
+             <v-text-field type="email" class="pt-2" :rules="[rules.required, rules.email]" hide-details="auto" v-model="data.email_secondary" outlined dense label="Email Address 2"></v-text-field>
+             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]"  v-model="data.contact_number1" outlined dense label="Contact Number 1"></v-text-field>
+             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]"  v-model="data.contact_number2" outlined dense label="Contact Number 2"></v-text-field>
+             
              <v-btn type="submit" small color="primary" :loading="isLoading" class="mt-3 mr-2">
                Submit
              </v-btn>
@@ -138,6 +142,8 @@
                Cancel
              </v-btn>
            </v-stepper-content>
+
+            
          </v-stepper>
        </v-form>
      </v-col>
@@ -180,18 +186,20 @@ export default {
         province: '',
         filenames: [],
         zipcode: '',
-        hasDisability: false,
-        father_first_name: '',
-        father_middle_name: '',
-        father_last_name: '',
-        father_monthly_salary: '',
-        mother_first_name: '',
-        mother_maiden_name: '',
-        mother_last_name: '',
-        mother_monthly_salary: '',
-        siblings_monthly_salary: '',
-        house_member: '',
-        household_number: '',
+        gwa: '',
+        academic_units: '',
+        // hasDisability: false,
+        // father_first_name: '',
+        // father_middle_name: '',
+        // father_last_name: '',
+        // father_monthly_salary: '',
+        // mother_first_name: '',
+        // mother_maiden_name: '',
+        // mother_last_name: '',
+        // mother_monthly_salary: '',
+        // siblings_monthly_salary: '',
+        // house_member: '',
+        // household_number: '',
        },
        gender: [
         { value: "Male", text: "Male"},
@@ -209,6 +217,20 @@ export default {
          },
          {
            value: 'Divorced', text: 'Divorced'
+         },
+       ],
+       testype: [
+         {
+           value: 'Listahan', text: 'Listahan'
+         },
+         {
+           value: '4Ps', text: '4Ps'
+         },
+         {
+           value: 'SWDI', text: 'SWDI'
+         },
+         {
+           value: 'ESGPPA', text: 'ESGPPA'
          },
        ],
        yearlevel: [{value: 'I', text: 'I'},{value: 'II', text: 'II'},{value: 'III', text: 'III'},{value: 'IV', text: 'IV'},{value: 'V', text: 'V'}],
@@ -244,52 +266,15 @@ export default {
     async apply(){
      this.isValid = this.$refs.form.validate()
      if(this.isValid){
-       if(this.data.fhefile){
-         let formData = new FormData();
-
-          formData.append("fhefile", this.data.fhefile);
-
-          await API.post(`user/upload-files`, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data"
-            },
-            }).then(response => {
-                this.data.filenames.push({name: response.data.msg});
-              })
-              .catch(error => {
-                  console.log({ error });
-          });
-       }
-
-       if(this.data.eslip){
-         let formData = new FormData();
-
-          formData.append("eslip", this.data.eslip);
-
-          await API.post(`user/upload-files`, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data"
-            },
-            }).then(response => {
-              console.log(response.data.msg)
-                 this.data.filenames.push({name: response.data.msg});
-              })
-              .catch(error => {
-                  console.log({ error });
-              });
-       }
-
+    
        this.isLoading = true
-       const isQualified = testData(this.data)
-       this.data.isQualified = isQualified
+
        const {data, status} = await this.$store.dispatch('applicant/saveApplicant', this.data)
        this.checkStatus(data, status, '', 'updates/getApplicants')
        if(status == 200){
         this.$router.back()
         this.$toast.success('Login to your account to view updates and application status')
         this.clearData()
-
-
        }
        this.isLoading = false
 
@@ -318,16 +303,16 @@ export default {
         town: '',
         province: '',
         zipcode: '',
-        hasDisability: false,
-        father_first_name: '',
-        father_middle_name: '',
-        father_last_name: '',
-        father_monthly_salary: '',
-        mother_first_name: '',
-        mother_maiden_name: '',
-        mother_last_name: '',
-        mother_monthly_salary: '',
-        siblings_monthly_salary: '',
+        // hasDisability: false,
+        // father_first_name: '',
+        // father_middle_name: '',
+        // father_last_name: '',
+        // father_monthly_salary: '',
+        // mother_first_name: '',
+        // mother_maiden_name: '',
+        // mother_last_name: '',
+        // mother_monthly_salary: '',
+        // siblings_monthly_salary: '',
         house_member: '',
         household_number: '',
      }

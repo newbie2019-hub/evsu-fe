@@ -9,7 +9,9 @@
     <router-view name="editupdate"/>
     <router-view name="viewupdate"/>
     <router-view name="createupdate"/>
+    <router-view name="accounts"/>
     <router-view name="viewapplicant"/>
+    <router-view name="viewaccount"/>
   </div>
 </template>
 <script>

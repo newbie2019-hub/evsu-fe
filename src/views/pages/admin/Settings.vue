@@ -74,6 +74,14 @@
             </v-card>
           </v-dialog>
        </v-form>
+       <p class="mt-6 text-uppercase primary--text">
+         <v-icon color="primary">mdi-file-compare</v-icon>
+         Cross Checking File
+        </p>
+       <v-divider class="mt-2"></v-divider>
+       <v-form>
+         <v-file-input show-size accept=".xlsx,.csv " label="Upload Excel file" truncate-length="25"></v-file-input>
+       </v-form>
        <v-layout class="mt-5">
          <v-dialog
             v-model="dialogLogout"

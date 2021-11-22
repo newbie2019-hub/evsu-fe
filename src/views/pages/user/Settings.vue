@@ -12,7 +12,6 @@
          <v-col class="text-center">
           <p class="text-h5">{{ user.info.first_name }} {{user.info.last_name}}</p>
           <p class="caption">{{ user.email}}</p>
-           <v-chip class="white--text mt-1" :color="user.status.status == 0 ? 'red darken-2' : 'green darken-2'" x-small>{{user.status.status == 0 ? 'Not Qualified' : 'Qualified'}}</v-chip>
          </v-col>
        </v-layout>
        <p class="mt-6 text-uppercase primary--text">
@@ -25,7 +24,7 @@
          <v-text-field type="text" :loading="initialLoading" clearable outlined v-model="data.first_name" label="First Name" dense :rules="[rules.required]"></v-text-field>
          <v-text-field type="text" :loading="initialLoading" clearable outlined v-model="data.middle_name" label="Middle Name" dense :rules="[rules.required]"></v-text-field>
          <v-text-field type="text" :loading="initialLoading" clearable outlined v-model="data.last_name" label="Last Name" dense :rules="[rules.required]"></v-text-field>
-         <v-text-field type="text" :loading="initialLoading" clearable outlined v-model="data.contact_number" label="Contact Number" dense :rules="[rules.required]"></v-text-field>
+         <!-- <v-text-field type="text" :loading="initialLoading" clearable outlined v-model="data.contact_number" label="Contact Number" dense :rules="[rules.required]"></v-text-field>
          <v-select :items="gender" outlined v-model="data.gender" label="Select gender" dense></v-select>
          <v-dialog
                ref="dialog"
@@ -53,7 +52,7 @@
                    OK
                  </v-btn>
                </v-date-picker>
-             </v-dialog>
+             </v-dialog> -->
          <p class="mt-4 text-uppercase primary--text">
             <v-icon color="primary">mdi-account-key</v-icon>
             Login Credentials

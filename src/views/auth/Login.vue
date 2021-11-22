@@ -22,8 +22,7 @@
                 v-model="adminlogin"
                 label="Admin login"
                 dark
-                class="mt-0"
-              ></v-switch>
+                class="mt-0"></v-switch>
             <v-btn type="submit" depressed color="primary" block :loading="isLoading">
              Login
              <v-icon right>
@@ -31,8 +30,8 @@
              </v-icon>
             </v-btn>
          </v-form>
-         <router-link to="/apply" class="text-decoration-none white--text container text-center">
-          <small>Apply for Scholarship</small>
+         <router-link to="/register" class="text-decoration-none white--text container text-center">
+          <small>Register</small>
          </router-link>
         </v-layout>
        </v-col>
@@ -49,6 +48,7 @@ export default {
      password: '',
     },
     adminlogin: false,
+    isLoading: false,
     rules: [
       val => !!val || 'Required.',
     ],
@@ -69,7 +69,9 @@ export default {
         await this.loginAccount(this.data).then((res) => {
           if (res.status == 200) {
             this.$toast.success(`Welcome, ${res.data.user_info.first_name} ${res.data.user_info.last_name}!`);
-            this.$router.push("/home/dashboard");
+            this.$router.push("/home/updates");
+          } else if (res.status == 422) {
+            this.UnprocEntity(res.data)
           } else {
             this.$toast.error("Invalid Credentials");
           }
@@ -78,8 +80,10 @@ export default {
         await this.loginUserAccount(this.data).then((res) => {
           if (res.status == 200) {
             this.$router.push("/user/dashboard");
+          } else if (res.status == 422) {
+            this.UnprocEntity(res.data)
           } else {
-            this.$toast.error("Invalid Credentials");
+            this.$toast.error(res.data.msg);
           }
         });
       }

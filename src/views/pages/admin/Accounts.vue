@@ -4,8 +4,8 @@
   <v-container class="mb-14 p-4">
     <v-row align="center" justify="center">
       <v-col cols="11" sm="10" lg="7">
-        <h3 class="primary--text">Applicant Records</h3>
-        <p class="grey--text lighten-1 caption">Welcome, Here are the applicants</p>
+        <h3 class="primary--text">Accounts</h3>
+        <p class="grey--text lighten-1 caption">Welcome, Here are the registered accounts</p>
       </v-col>
     </v-row>
     <v-row align="center" justify="center">
@@ -22,7 +22,7 @@
         </v-card-title>
         <v-data-iterator
           sort-by=""
-          :items="applicants" 
+          :items="accounts" 
           :loading="initialLoading"
           :search="search">
           <template v-slot:default="{ items }">
@@ -32,9 +32,11 @@
               <span class="white--text subtitle-2">{{item.info.first_name[0]}}{{item.info.last_name[0]}}</span>
               </v-list-item-avatar>
               <v-list-item-content>
-                <v-list-item-title>{{item.info.first_name}} {{item.info.last_name}}</v-list-item-title>
-                <v-list-item-subtitle>{{item.email}}</v-list-item-subtitle>
-
+               <v-list-item-title>{{item.info.first_name}} {{item.info.last_name}}</v-list-item-title>
+               <v-list-item-subtitle>{{item.email}}</v-list-item-subtitle>
+               <v-layout>
+                <v-chip class="white--text mt-1" :color="item.status == 'Pending' ? 'red darken-2' : 'green darken-2'" x-small>{{item.status}}</v-chip>
+               </v-layout>
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -56,23 +58,20 @@ export default {
    }
   },
   computed: {
-   ...mapState('applicant', ['applicants'])
+   ...mapState('auth', ['accounts'])
   },
   async mounted(){
    this.initialLoading = true
-   await this.$store.dispatch('applicant/getApplicants');
+   await this.$store.dispatch('auth/getAccounts');
    this.initialLoading = false
   },
   components: {UserAvatar},
   methods: {
    setViewRecord(data) {
-      this.$store.commit('applicant/SET_VIEW_APPLICANT', { data: data });
-      this.$router.push({ name: 'viewapplicant', params: { slug: data.id } });
-    },
-   async getApplicants(){
-     await this.$store.dispatch('applicant/getApplicants');
+    console.log(data)
+      this.$store.commit('auth/SET_VIEW_ACCOUNT', { data: data });
+      this.$router.push({ name: 'viewaccount', params: { slug: data.id } });
    },
-   
   }
 }
 </script>
