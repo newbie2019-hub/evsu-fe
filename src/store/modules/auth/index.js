@@ -111,8 +111,8 @@ export default {
 
       return res;
     },
-    async getAccounts({commit}){
-      const res = await API.get('/auth/admin/accounts').then(res => {
+    async getAccounts({commit}, data){
+      const res = await API.get(`/auth/admin/accounts?search=${data}`).then(res => {
         commit('SET_ACCOUNTS', res.data);
 
         return res;

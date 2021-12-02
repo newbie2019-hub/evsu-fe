@@ -10,10 +10,10 @@
         Return
       </v-btn>
       <v-layout class="pl-6 mt-5">
-       <p class="headline">TES Application Form</p>
+       <p class="headline">TES Form</p>
       </v-layout>
       <v-layout class="pl-6 pr-5">
-       <p class="subtitle-2">In consonance with The Data Privacy Act of 2012 all information provided in this form will be treated with confidentiality.</p>
+       <p class="subtitle-2">The SASO office would like you to submit some of your informations. Please fill out the fields below</p>
       </v-layout>
       <v-layout class="pl-6 pr-5">
        <p class="subtitle-2 mt-4 red--text" v-if="!isValid">All fields are required!</p>
@@ -126,10 +126,11 @@
            </v-stepper-content> 
 
            <v-stepper-step step="4"  editable>
-             Contact Information
+             Contact and Email Information
            </v-stepper-step>
 
            <v-stepper-content step="4">
+             <p class="grey--text caption">A confirmation email will be sent to your account. Please verify both of your emails as this will be used to send you updates.</p>
              <v-text-field type="email" class="pt-2" :rules="[rules.required, rules.email]" hide-details="auto" v-model="data.email" outlined dense label="Email Address 1"></v-text-field>
              <v-text-field type="email" class="pt-2" :rules="[rules.required, rules.email]" hide-details="auto" v-model="data.email_secondary" outlined dense label="Email Address 2"></v-text-field>
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]"  v-model="data.contact_number1" outlined dense label="Contact Number 1"></v-text-field>

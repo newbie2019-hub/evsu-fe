@@ -28,7 +28,19 @@ Vue.use(Toast, {
   newestOnTop: true
 });
 
+import { initializeApp } from "firebase/app";
 
+const firebaseConfig = {
+  apiKey: "AIzaSyBOaR27yo2yX4A0uWwbkK8tzISTrocTems",
+  authDomain: "evsuchat-88018.firebaseapp.com",
+  databaseURL: "https://evsuchat-88018-default-rtdb.firebaseio.com",
+  projectId: "evsuchat-88018",
+  storageBucket: "evsuchat-88018.appspot.com",
+  messagingSenderId: "284760977948",
+  appId: "1:284760977948:web:88af639d52278234f765d9"
+};
+
+initializeApp(firebaseConfig)
 
 new Vue({
   vuetify,

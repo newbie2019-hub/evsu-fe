@@ -6,6 +6,7 @@
     <router-view name="scholar"/>
     <router-view name="settings"/>
     <router-view name="updates"/>
+    <router-view name="adminchat"/>
     <router-view name="editupdate"/>
     <router-view name="viewupdate"/>
     <router-view name="createupdate"/>
@@ -23,6 +24,9 @@ export default {
   },
   components: {
     BottomNav
+  },
+  computed: {
+     
   }
 }
 </script>

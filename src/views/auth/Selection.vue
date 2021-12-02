@@ -1,7 +1,7 @@
 <template>
 <div class="bg-hero">
-  <v-container class="h-100 pa-6">
-   <v-row align="center" justify="center" class="h-device mb-8">
+  <v-container class="vh-100">
+   <v-row align="center" justify="center" class="h-device">
      <v-col class="pa-1" sm="9" md="7" lg="7">
        <v-layout align-center justify-center column>
          <img src="@/assets/images/logo.png" alt="" width="120" height="120">

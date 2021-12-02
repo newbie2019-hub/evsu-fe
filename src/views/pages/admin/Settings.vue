@@ -2,7 +2,8 @@
  <div>
    <v-container class="mb-15">
     <v-row align="center" justify="center">
-     <v-col md="7" lg="6" class="mr-6 ml-6">
+     <v-col md="10" lg="10" class="mr-6 ml-6">
+       <v-app-bar-nav-icon class="mt-6" @click.stop="setDrawerState"></v-app-bar-nav-icon>
        <v-layout align-center justify-center class="mt-8">
         <v-avatar color="primary" size="90">
            <span class="white--text text-h5">{{ user.info.first_name[0] }}{{user.info.last_name[0]}}</span>
@@ -21,11 +22,23 @@
         </p>
        <v-divider class="mt-2"></v-divider>
        <v-form ref="form"  class="mt-5">
-         <v-text-field type="text" :loading="initialLoading" clearable outlined v-model="data.first_name" label="First Name" dense :rules="[rules.required]"></v-text-field>
-         <v-text-field type="text" :loading="initialLoading" clearable outlined v-model="data.middle_name" label="Middle Name" dense :rules="[rules.required]"></v-text-field>
-         <v-text-field type="text" :loading="initialLoading" clearable outlined v-model="data.last_name" label="Last Name" dense :rules="[rules.required]"></v-text-field>
-         <v-text-field type="text" :loading="initialLoading" clearable outlined v-model="data.contact_number" label="Contact Number" dense :rules="[rules.required]"></v-text-field>
-         <v-select :items="gender" outlined v-model="data.gender" label="Select gender" dense></v-select>
+         <v-row>
+          <v-col class="pa-1 white--text" cols="12" sm="6" md="6" lg="6" >
+            <v-text-field type="text" :loading="initialLoading" clearable outlined v-model="data.first_name" label="First Name" dense :rules="[rules.required]"></v-text-field>
+          </v-col>
+          <v-col class="pa-1 white--text" cols="12" sm="6" md="6" lg="6" >
+            <v-text-field type="text" :loading="initialLoading" clearable outlined v-model="data.middle_name" label="Middle Name" dense :rules="[rules.required]"></v-text-field>
+          </v-col>
+          <v-col class="pa-1 white--text" cols="12" sm="6" md="6" lg="6" >
+            <v-text-field type="text" :loading="initialLoading" clearable outlined v-model="data.last_name" label="Last Name" dense :rules="[rules.required]"></v-text-field>
+          </v-col>
+          <v-col class="pa-1 white--text" cols="12" sm="6" md="6" lg="6" >
+            <v-text-field type="text" :loading="initialLoading" clearable outlined v-model="data.contact_number" label="Contact Number" dense :rules="[rules.required]"></v-text-field>
+          </v-col>
+          <v-col class="pa-1 white--text" cols="12" sm="6" md="6" lg="6" >
+            <v-select :items="gender" outlined v-model="data.gender" label="Select gender" dense></v-select>
+          </v-col>
+         </v-row>
          <p class="mt-4 text-uppercase primary--text">
             <v-icon color="primary">mdi-account-key</v-icon>
             Login Credentials
@@ -78,9 +91,11 @@
          <v-icon color="primary">mdi-file-compare</v-icon>
          Cross Checking File
         </p>
-       <v-divider class="mt-2"></v-divider>
-       <v-form>
-         <v-file-input show-size accept=".xlsx,.csv " label="Upload Excel file" truncate-length="25"></v-file-input>
+       <v-divider class="mt-2 mb-2"></v-divider>
+       <v-form ref="filechecking" @submit.prevent="uploadFile">
+         <v-file-input type="file" v-model="data.filechecking" show-size accept=".xlsx,.csv " label="Upload Excel file" truncate-length="25"></v-file-input>
+         <p class="grey--text text-caption">Note: This will update duplicate records from the previous import if it has and will also update the status of the applicants record</p>
+         <v-btn type="submit" color="success darken-1 mt-3" dark>Upload</v-btn>
        </v-form>
        <v-layout class="mt-5">
          <v-dialog
@@ -124,6 +139,7 @@
 </template>
 <script>
 import {mapState, mapActions} from 'vuex'
+import API from '../../../store/base'
 export default {
   data() {
     return {
@@ -137,6 +153,7 @@ export default {
         email: '',
         password: '',
         confirm_password: '',
+        // filechecking: ''
       },
       rules: {
           required: value => !!value || 'Required.',
@@ -163,6 +180,9 @@ export default {
   },
   methods: {
    ...mapActions('auth', ['logoutUser']),
+   setDrawerState(){
+     this.$store.commit('updates/SET_DRAWER_STATE')
+   },
    async logout(){
      this.isLoading = true
      const res = await this.logoutUser()
@@ -174,6 +194,27 @@ export default {
        this.$router.push('/')
      }
      this.isLoading = false
+   },
+   async uploadFile(){
+     if(this.data.filechecking){
+        let formData = new FormData();
+
+        formData.append("filechecking", this.data.filechecking);
+
+        await API.post(`user/upload-files`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          },
+          }).then(response => {
+              this.$toast.success(response.data.msg)
+          })
+          .catch(error => {
+              console.log({ error });
+         });
+     }
+     else {
+       this.$toast.error('Please select a file')
+     }
    },
    setDetails(){
      this.data.first_name = this.user.info.first_name

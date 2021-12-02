@@ -24,8 +24,8 @@ export default {
        }
     },
     actions: {
-        async getApplicants({ commit }) {
-            const res = await API.get(`/admin/applicant?`).then(res => {
+        async getApplicants({ commit }, {status, search}) {
+            const res = await API.get(`/admin/applicant?status=${status}&search=${search}`).then(res => {
                 commit('SET_APPLICANTS', res.data)
                 return res;
             }).catch(err => {

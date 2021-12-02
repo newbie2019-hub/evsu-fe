@@ -19,7 +19,7 @@
           <p class="text-h5">{{ selectedApplicant.info.first_name }} {{selectedApplicant.info.last_name}}</p>
           <p class="caption">{{ selectedApplicant.email}}</p>
           <p class="caption">Date Registered: {{ selectedApplicant.created_at}}</p>
-          <!-- <v-chip class="white--text mt-1" :color="selectedApplicant.status.status == 0 ? 'red darken-2' : 'green darken-2'" x-small>{{selectedApplicant.status.status == 0 ? 'Not Qualified' : 'Qualified'}}</v-chip> -->
+          <v-chip class="white--text mt-1" :color="selectedApplicant.status == 'Unofficial' ? 'red darken-2' : 'green darken-2'" x-small>{{selectedApplicant.status == 'Official' ? 'Officially Enrolled' : 'Unofficial'}}</v-chip>
          </v-col>
        </v-layout>
        <p class="mt-6 text-uppercase primary--text">
@@ -69,7 +69,7 @@
           <template v-slot:activator="{ on, attrs }">
            <v-btn small depressed rounded text v-bind="attrs"
               v-on="on" class="red--text">
-            Delete Applicant
+            Delete
             <v-icon color="red accent-3" right>mdi-delete-empty</v-icon>
            </v-btn>
           </template>

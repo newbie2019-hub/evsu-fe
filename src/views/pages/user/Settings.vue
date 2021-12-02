@@ -2,7 +2,8 @@
  <div>
    <v-container class="mb-15">
     <v-row align="center" justify="center">
-     <v-col md="7" lg="6" class="mr-6 ml-6">
+     <v-col md="10" lg="10" class="mr-6 ml-6">
+       <v-app-bar-nav-icon class="mt-6" @click.stop="setDrawerState"></v-app-bar-nav-icon>
        <v-layout align-center justify-center class="mt-8">
         <v-avatar color="primary" size="90">
            <span class="white--text text-h5">{{ user.info.first_name[0] }}{{user.info.last_name[0]}}</span>
@@ -197,6 +198,9 @@ export default {
        this.$router.push('/')
      }
      this.isLoading = false
+   },
+    setDrawerState(){
+     this.$store.commit('updates/SET_DRAWER_STATE')
    },
    setDetails(){
      this.data.student_number = this.user.student_number

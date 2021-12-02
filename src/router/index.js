@@ -15,6 +15,7 @@ const Accounts = () => import ('@/views/pages/admin/Accounts.vue')
 const ViewAccount = () => import ('@/views/pages/admin/ViewAccount.vue')
 
 const Updates = () => import ('@/views/pages/admin/Updates.vue')
+const AdminChat = () => import ('@/views/pages/admin/Chat.vue')
 const CreateUpdate = () => import ('@/views/pages/admin/Updates/NewUpdate.vue')
 const EditUpdate = () => import ('@/views/pages/admin/Updates/EditUpdate.vue')
 const ViewUpdate = () => import ('@/views/pages/admin/Updates/ViewUpdate.vue')
@@ -22,6 +23,7 @@ const Settings = () => import ('@/views/pages/admin/Settings.vue')
 const Apply = () => import ('@/views/pages/admin/Application/Apply.vue')
 
 const UserHome = () => import ('@/views/pages/user/Home.vue')
+const UserChat = () => import ('@/views/pages/user/Chat.vue')
 const UserStatus = () => import ('@/views/pages/user/Updates.vue')
 const UserViewUpdate = () => import ('@/views/pages/user/ViewUpdate.vue')
 const UserSettings = () => import ('@/views/pages/user/Settings.vue')
@@ -87,6 +89,13 @@ const routes = [
                 name: 'Records',
                 components: {
                     records: Records
+                },
+            },
+            {
+                path: 'chat',
+                name: 'adminchat',
+                components: {
+                    adminchat: AdminChat
                 },
             },
             {
@@ -158,6 +167,13 @@ const routes = [
                 name: 'userdashboard',
                 components: {
                     userdashboard: UserHome
+                },
+            },
+            {
+                path: 'chat',
+                name: 'userchat',
+                components: {
+                    userchat: UserChat
                 },
             },
             {

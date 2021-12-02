@@ -3,17 +3,17 @@
   <v-container class="pt-3 pl-8 pr-8 mb-5">
    <user-avatar />
    <v-row align="center" justify="center">
-    <v-col lg="8">
+    <v-col sm="10" md="8" lg="8">
      <h4>{{ msg }},</h4>
      <h1>{{ user.info.first_name }} {{ user.info.last_name }}</h1>
-     <p class="grey--text lighten-1 caption mt-3">Welcome, Here are the updates</p>
+     <h3 class="grey--text lighten-1 caption mt-3">Welcome, Here are the updates</h3>
     </v-col>
    </v-row>
    <v-row class="mt-3" justify="center" align="center">
+    <v-col sm="10" md="8" lg="8">
     <p v-if="updates.data.length == 0" class="grey--text mt-15 text-center pl-4">
      It appears they don't have any updates yet.
     </p>
-    <v-col sm="10" md="8" lg="8">
      <v-card elevation="1" class="mt-5" v-for="(update, i) in updates.data" :key="i" @click="setViewUpdate(update)">
       <v-card-text class="mt-n8">
        <p class="text-h5 text--primary">{{ update.title }}</p>

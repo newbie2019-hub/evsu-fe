@@ -1,7 +1,7 @@
 <template>
  <div>
   <user-avatar/>
-  <v-container class="pt-3 pl-8 pr-8">
+  <v-container class="pt-3 pl-10 pr-10">
    <h4>{{msg}},</h4>
    <h1>{{user.info.first_name}} {{user.info.last_name}}</h1>
    <p class="grey--text lighten-1 caption mt-3">Welcome, Here is your summary</p>
@@ -11,10 +11,10 @@
        <v-list-item three-line>
         <v-list-item-content >
           <v-list-item-title class="text-h5 mb-1  text-center">
-            <span class="text-h3">15</span>
+            <span class="text-h3">{{summary.records}}</span>
           </v-list-item-title>
           <v-list-item-subtitle class="text-center">
-            Applicants
+            Records
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -25,10 +25,24 @@
        <v-list-item three-line>
         <v-list-item-content >
           <v-list-item-title class="text-h5 mb-1  text-center">
-            <span class="text-h3">25</span>
+            <span class="text-h3">{{summary.updates}}</span>
           </v-list-item-title>
           <v-list-item-subtitle class="text-center">
             Updates
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+     </v-card>
+    </v-col>
+    <v-col sm="8" md="8" lg="4">
+     <v-card elevation="1" class="pa-3">
+       <v-list-item three-line>
+        <v-list-item-content >
+          <v-list-item-title class="text-h5 mb-1  text-center">
+            <span class="text-h3">{{summary.account}}</span>
+          </v-list-item-title>
+          <v-list-item-subtitle class="text-center">
+            Users
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -62,11 +76,13 @@ export default {
     }
   },
   components: {UserAvatar},
-  mounted(){
+  async mounted(){
    this.greetingMsg()
+   await this.$store.dispatch('dashboard/getSummary');
   },
   computed: {
-   ...mapState('auth', ['user'])
+   ...mapState('auth', ['user']),
+   ...mapState('dashboard', ['summary'])
   },
   methods: {
    greetingMsg(){

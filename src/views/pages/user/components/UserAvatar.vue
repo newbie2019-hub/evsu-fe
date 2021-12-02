@@ -1,5 +1,6 @@
 <template>
  <v-container class="h-100">
+   <v-app-bar-nav-icon class="pt-6" @click.stop="setDrawerState"></v-app-bar-nav-icon>
   <v-row justify="end" class="pr-7 pt-6">
    <v-menu bottom min-width="150px" rounded offset-y >
     <template v-slot:activator="{ on }">
@@ -76,6 +77,9 @@ import { mapState, mapActions } from 'vuex';
   },
   methods: {
    ...mapActions('auth', ['logoutUser']),
+    setDrawerState(){
+     this.$store.commit('updates/SET_DRAWER_STATE')
+   },
    async logout(){
      this.isLoading = true
      const res = await this.logoutUser()

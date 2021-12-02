@@ -23,8 +23,7 @@
         <v-data-iterator
           sort-by=""
           :items="accounts" 
-          :loading="initialLoading"
-          :search="search">
+          :loading="initialLoading">
           <template v-slot:default="{ items }">
           <v-card flat v-for="item in items" :key="item.id" class="mt-4" @click="setViewRecord(item)">
             <v-list-item class="grow">
@@ -62,16 +61,27 @@ export default {
   },
   async mounted(){
    this.initialLoading = true
-   await this.$store.dispatch('auth/getAccounts');
+   await this.$store.dispatch('auth/getAccounts', this.search);
    this.initialLoading = false
   },
   components: {UserAvatar},
   methods: {
+   async getAccounts(){
+     await this.$store.dispatch('auth/getAccounts', this.search);
+   },
    setViewRecord(data) {
     console.log(data)
       this.$store.commit('auth/SET_VIEW_ACCOUNT', { data: data });
       this.$router.push({ name: 'viewaccount', params: { slug: data.id } });
    },
+  },
+  watch: {
+    search(){
+      if (this.timeout) clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        this.getAccounts()
+      }, 900);
+    }
   }
 }
 </script>

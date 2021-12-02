@@ -15,16 +15,22 @@
             v-model="search"
             append-icon="mdi-magnify"
             label="Search"
-            single-line
             hide-details
             class="pt-0"
           ></v-text-field>
         </v-card-title>
+        <v-card-title>
+           <v-select
+            v-model="selectedStatus"
+            @change="getApplicants"
+            :items="filterStatus"
+            label="Status"
+            dense
+          ></v-select>
+        </v-card-title>
         <v-data-iterator
-          sort-by=""
           :items="applicants" 
-          :loading="initialLoading"
-          :search="search">
+          :loading="initialLoading">
           <template v-slot:default="{ items }">
           <v-card flat v-for="item in items" :key="item.id" class="mt-4" @click="setViewRecord(item)">
             <v-list-item class="grow">
@@ -34,7 +40,9 @@
               <v-list-item-content>
                 <v-list-item-title>{{item.info.first_name}} {{item.info.last_name}}</v-list-item-title>
                 <v-list-item-subtitle>{{item.email}}</v-list-item-subtitle>
-
+                <v-layout>
+                  <v-chip class="white--text mt-1" :color="item.status == 'Unofficial' ? 'red darken-2' : 'green darken-2'" x-small>{{item.status == 'Official' ? 'Officially Enrolled' : 'Unofficial'}}</v-chip>
+                </v-layout>
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -52,7 +60,15 @@ export default {
   data(){
    return {
     search: '',
-    data: []
+    data: [],
+    keys: [
+      'Status'
+    ],
+    sortBy: 'status',
+    filterStatus: [
+      'Officially Enrolled', 'Unofficial', 'All Records'
+    ],
+    selectedStatus: 'All Records',
    }
   },
   computed: {
@@ -60,7 +76,8 @@ export default {
   },
   async mounted(){
    this.initialLoading = true
-   await this.$store.dispatch('applicant/getApplicants');
+   document.title = 'Applicant Records'
+   await this.$store.dispatch('applicant/getApplicants', {status: this.selectedStatus, search: this.search});
    this.initialLoading = false
   },
   components: {UserAvatar},
@@ -70,9 +87,16 @@ export default {
       this.$router.push({ name: 'viewapplicant', params: { slug: data.id } });
     },
    async getApplicants(){
-     await this.$store.dispatch('applicant/getApplicants');
+     await this.$store.dispatch('applicant/getApplicants', {status: this.selectedStatus, search: this.search});
    },
-   
+  },
+  watch: {
+    search(){
+      if (this.timeout) clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        this.getApplicants()
+      }, 900);
+    }
   }
 }
 </script>

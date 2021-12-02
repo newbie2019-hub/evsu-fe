@@ -17,6 +17,7 @@
     "core-js": "^3.6.5",
     "csv": "^5.5.3",
     "express": "^4.17.1",
+    "firebase": "^7.23.0",
     "quill-image-drop-module": "^1.0.3",
     "quill-image-resize-vue": "^1.0.4",
     "roboto-fontface": "*",

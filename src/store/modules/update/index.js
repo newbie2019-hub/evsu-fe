@@ -16,6 +16,7 @@ export default {
         updates: {
             data: []
         },
+        drawer: false,
     },
     getters: {
 
@@ -31,6 +32,9 @@ export default {
         SET_VIEW_UPDATE(state, { data }) {
             state.view_update = data
         },
+        SET_DRAWER_STATE(state, data){
+            state.drawer = !state.drawer
+        }
     },
     actions: {
         async getUpdates({ commit }, page) {

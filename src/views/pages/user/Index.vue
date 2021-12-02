@@ -3,6 +3,7 @@
     <bottom-nav />
     <router-view name="userdashboard"/>
     <router-view name="userstatus"/>
+    <router-view name="userchat"/>
     <router-view name="userviewupdate"/>
     <router-view name="usersettings"/>
   </div>
