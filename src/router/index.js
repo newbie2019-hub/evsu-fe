@@ -14,6 +14,7 @@ const Scholar = () => import ('@/views/pages/admin/Scholars.vue')
 const Accounts = () => import ('@/views/pages/admin/Accounts.vue')
 const ViewAccount = () => import ('@/views/pages/admin/ViewAccount.vue')
 
+const AdminLogs = () => import ('@/views/pages/admin/AccountLogs.vue')
 const Updates = () => import ('@/views/pages/admin/Updates.vue')
 const AdminChat = () => import ('@/views/pages/admin/Chat.vue')
 const CreateUpdate = () => import ('@/views/pages/admin/Updates/NewUpdate.vue')
@@ -22,6 +23,7 @@ const ViewUpdate = () => import ('@/views/pages/admin/Updates/ViewUpdate.vue')
 const Settings = () => import ('@/views/pages/admin/Settings.vue')
 const Apply = () => import ('@/views/pages/admin/Application/Apply.vue')
 
+const UserLogs = () => import ('@/views/pages/user/AccountLogs.vue')
 const UserHome = () => import ('@/views/pages/user/Home.vue')
 const UserChat = () => import ('@/views/pages/user/Chat.vue')
 const UserStatus = () => import ('@/views/pages/user/Updates.vue')
@@ -75,6 +77,13 @@ const routes = [
                 name: 'Dashboard',
                 components: {
                     dashboard: Home
+                },
+            },
+            {
+                path: 'admin/logs',
+                name: 'adminlogs',
+                components: {
+                    AdminLogs: AdminLogs
                 },
             },
             {
@@ -167,6 +176,13 @@ const routes = [
                 name: 'userdashboard',
                 components: {
                     userdashboard: UserHome
+                },
+            },
+            {
+                path: 'logs',
+                name: 'userlogs',
+                components: {
+                    UserLogs: UserLogs
                 },
             },
             {

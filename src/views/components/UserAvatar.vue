@@ -1,11 +1,11 @@
 <template>
  <v-container class="h-100 pl-10 pr-10">
-  <v-app-bar-nav-icon class="pt-6" @click.stop="setDrawerState"></v-app-bar-nav-icon>
-  <v-row justify="end" class="pr-7 pt-6">
-   <v-menu bottom min-width="150px" class="pt-5" rounded offset-y >
+  <v-app-bar-nav-icon class="mt-6" @click.stop="setDrawerState"></v-app-bar-nav-icon>
+  <v-row justify="end" class="pr-7 pt-5">
+   <v-menu bottom min-width="200px" class="pt-5" rounded offset-y >
     <template v-slot:activator="{ on }">
      <v-btn icon v-on="on">
-      <v-avatar color="brown" size="48" right class="position-fixed z-999">
+      <v-avatar color="brown" size="52" right class="">
        <span class="white--text text-h6">{{ user.info.first_name[0] }}{{user.info.last_name[0]}}</span>
       </v-avatar>
      </v-btn>
@@ -96,7 +96,12 @@ import { mapState, mapActions } from 'vuex';
  };
 </script>
 <style >
+
 .v-menu__content {
  margin-top: 15px;
+}
+
+.v-btn--icon.v-size--default .v-icon, .v-btn--fab.v-size--default .v-icon {
+  font-size: 32px !important;
 }
 </style>

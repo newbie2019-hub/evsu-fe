@@ -24,6 +24,22 @@ export default {
        }
     },
     actions: {
+        async exportData({ commit }) {
+            const res = await API.get(`/admin/records/export?`,{
+                headers:
+                {
+                    'Content-Disposition': "attachment; filename=records.xlsx",
+                    'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                },
+                responseType: 'arraybuffer',
+            }).then(res => {
+                return res;
+            }).catch(err => {
+                return err.response
+            })
+
+            return res;
+        },
         async getApplicants({ commit }, {status, search}) {
             const res = await API.get(`/admin/applicant?status=${status}&search=${search}`).then(res => {
                 commit('SET_APPLICANTS', res.data)

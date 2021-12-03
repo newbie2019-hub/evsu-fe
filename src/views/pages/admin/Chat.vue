@@ -2,7 +2,7 @@
   <v-container class="">
     <v-row align="center" justify="center">
      <v-col cols="12" sm="10" md="10" lg="10" class="mr-6 ml-6">
-       <v-app-bar-nav-icon class="mt-6" @click.stop="setDrawerState"></v-app-bar-nav-icon>
+       <v-app-bar-nav-icon class="mt-6" v-if="!hasSelected" @click.stop="setDrawerState"></v-app-bar-nav-icon>
         <v-layout column v-if="!hasSelected">
          <v-card-title>
            <v-text-field
@@ -14,7 +14,7 @@
              class="pt-0"
            ></v-text-field>
          </v-card-title>
-         <h4 class="text-center mt-3 mb-3 font-weight-regular">Select a user to start a chat</h4>
+         <h4 class="mt-3 mb-3 font-weight-regular">Select a user to start a chat</h4>
          <v-data-iterator
            sort-by=""
            :items="accounts" 
@@ -44,7 +44,7 @@
             <v-icon>
              mdi-arrow-left
             </v-icon>
-             Return
+             <span class="">{{chatUserName}}</span>
           </v-btn>
          </v-layout>
           <main>
@@ -81,6 +81,7 @@ export default {
     chatID: '',
     search: '',
     hasSelected: false,
+    chatUserName: '',
   }
  },
  computed: {
@@ -94,6 +95,7 @@ export default {
   retrieveMessages(item){
     this.hasSelected = true
     this.chatID = item.student_number
+    this.chatUserName = item.info.first_name + ' ' + item.info.last_name
     let query = firebase.firestore().collection("messages")
     query = query.where('chatID', '==', item.student_number)
     query = query.orderBy('createdAt')
@@ -156,13 +158,13 @@ form {
   width: 100%;
   display: flex;
   margin-top: 5px;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
         
 input {
   line-height: 1.3;
   width: 100%;
-  font-size: 1.2rem;
+  font-size: 1rem;
   outline: none;
   border: none;
   padding: 0 15px;

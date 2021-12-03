@@ -8,6 +8,7 @@
     <router-view name="updates"/>
     <router-view name="adminchat"/>
     <router-view name="editupdate"/>
+    <router-view name="AdminLogs"/>
     <router-view name="viewupdate"/>
     <router-view name="createupdate"/>
     <router-view name="accounts"/>

@@ -48,6 +48,9 @@
           </v-card>
         </template>
         </v-data-iterator>
+         <v-card-title>
+          <v-btn @click="exportData" ref="download" :loading="isLoading" color="secondary" elevation="2">Export Data</v-btn>
+        </v-card-title>
       </v-col>
     </v-row>
   </v-container>
@@ -69,6 +72,7 @@ export default {
       'Officially Enrolled', 'Unofficial', 'All Records'
     ],
     selectedStatus: 'All Records',
+    isLoading: false,
    }
   },
   computed: {
@@ -89,6 +93,17 @@ export default {
    async getApplicants(){
      await this.$store.dispatch('applicant/getApplicants', {status: this.selectedStatus, search: this.search});
    },
+   async exportData(){
+     this.isLoading = true
+     const res = await this.$store.dispatch('applicant/exportData')
+     const url = window.URL.createObjectURL(new Blob([res.data]));
+     const link = document.createElement('a');
+     link.href = url
+     link.setAttribute('download', 'template.xlsx');
+     document.body.appendChild(link);
+     link.click()
+     this.isLoading = false
+   }
   },
   watch: {
     search(){

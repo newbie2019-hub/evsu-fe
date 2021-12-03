@@ -61,6 +61,7 @@ export default {
   },
   async mounted(){
    this.initialLoading = true
+   document.title = "Accounts Management"
    await this.$store.dispatch('auth/getAccounts', this.search);
    this.initialLoading = false
   },

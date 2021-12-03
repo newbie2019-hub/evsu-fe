@@ -12,6 +12,8 @@ export default {
     userinfo: [],
     useraccount: [],
     signup: '',
+    adminlogs: [],
+    userlogs: [],
     accounts: [],
     token: localStorage.getItem('auth') || '',
     selectedAccount: [],
@@ -38,6 +40,12 @@ export default {
       state.user = data
       const bearer_token = localStorage.getItem('auth') || ''
       API.defaults.headers.common['Authorization'] = `Bearer ${bearer_token}`
+    },
+    SET_USER_LOGS(state, data) {
+      state.userlogs = data
+    },
+    SET_ADMIN_LOGS(state, data) {
+      state.adminlogs = data
     },
     SET_USER_ACC(state, data) {
       state.user = data
@@ -77,6 +85,28 @@ export default {
    } 
   },
   actions: {
+    async getAdminLogs({commit}){
+      const res = await API.get('/auth/admin/logs').then(res => {
+        commit('SET_ADMIN_LOGS', res.data)
+
+        return res;
+      }).catch(err => {
+       return err
+      })
+
+      return res;
+    },
+    async getUserLogs({commit}){
+      const res = await API.get('/auth/user/logs').then(res => {
+        commit('SET_USER_LOGS', res.data)
+
+        return res;
+      }).catch(err => {
+       return err
+      })
+
+      return res;
+    },
     async loginAccount({commit}, payload){
       const res = await API.post('/auth/admin/login', payload).then(res => {
         commit('SET_AUTH_ACC', res.data)

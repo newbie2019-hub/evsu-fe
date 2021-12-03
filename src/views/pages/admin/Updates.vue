@@ -13,7 +13,7 @@
     <p v-if="updates.data.length == 0" class="grey--text mt-15 text-center pl-4">
      It appears that you don't have any updates yet.
     </p>
-    <v-col sm="10" md="7" lg="8">
+    <v-col sm="10" md="12" lg="8">
      <v-card elevation="1" class="mt-5" v-for="(update, i) in updates.data" :key="i" @click="setViewUpdate(update)">
       <v-row class="pr-3 pt-2" justify="end">
        <v-menu bottom transition="slide-x-transition">

@@ -98,13 +98,13 @@ form {
   width: 100%;
   display: flex;
   margin-top: 5px;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
         
 input {
   line-height: 1.3;
   width: 100%;
-  font-size: 1.2rem;
+  font-size: 1rem;
   outline: none;
   border: none;
   padding: 0 15px;

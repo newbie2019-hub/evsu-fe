@@ -3,9 +3,9 @@
       v-model="isOpened"
       fixed
       temporary>
-      <v-layout d-flex column align-center justify-center class="mb-7 mt-6">
+      <v-layout d-flex column align-center justify-center class="mb-5 mt-6">
         <img src="@/assets/images/logo.png" alt="" class="img-fluid mb-4">
-        <h4>MANAGEMENT</h4>
+        <h5>MANAGEMENT</h5>
       </v-layout>
       <v-divider></v-divider>
       <v-list
@@ -56,6 +56,14 @@
               <v-icon small>mdi-account-cog</v-icon>
           </v-list-item-icon>
           <v-list-item-title>Settings</v-list-item-title>
+        </v-list-item>
+        <v-divider></v-divider>
+
+        <v-list-item link to="/home/admin/logs">
+          <v-list-item-icon>
+              <v-icon small>mdi-clipboard-clock-outline</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Activity Log</v-list-item-title>
         </v-list-item>
         <v-divider></v-divider>
 

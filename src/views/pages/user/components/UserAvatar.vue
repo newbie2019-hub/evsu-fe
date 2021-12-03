@@ -1,11 +1,11 @@
 <template>
  <v-container class="h-100">
    <v-app-bar-nav-icon class="pt-6" @click.stop="setDrawerState"></v-app-bar-nav-icon>
-  <v-row justify="end" class="pr-7 pt-6">
+  <v-row justify="end" class="pr-7 pt-5">
    <v-menu bottom min-width="150px" rounded offset-y >
     <template v-slot:activator="{ on }">
      <v-btn icon v-on="on">
-      <v-avatar color="brown" size="48" right class="position-fixed z-999">
+      <v-avatar color="brown" size="52" right class="">
        <span class="white--text text-h6">{{ user.info.first_name[0] }}{{user.info.last_name[0]}}</span>
       </v-avatar>
      </v-btn>
