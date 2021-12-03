@@ -14,7 +14,7 @@
     <p v-if="updates.data.length == 0" class="grey--text mt-15 text-center pl-4">
      It appears they don't have any updates yet.
     </p>
-     <v-card elevation="1" class="mt-5" v-for="(update, i) in updates.data" :key="i" @click="setViewUpdate(update)">
+     <v-card elevation="1" class="mt-10" v-for="(update, i) in updates.data" :key="i" @click="setViewUpdate(update)">
       <v-card-text class="mt-n8">
        <p class="text-h5 text--primary">{{ update.title }}</p>
        <p class="">
