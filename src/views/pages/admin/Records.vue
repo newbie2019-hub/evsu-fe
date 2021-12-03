@@ -95,10 +95,11 @@ export default {
    },
    async exportData(){
      this.isLoading = true
-     const res = await this.$store.dispatch('applicant/exportData')
+     const res = await this.$store.dispatch('applicant/exportData', this.selectedStatus)
      const url = window.URL.createObjectURL(new Blob([res.data]));
      const link = document.createElement('a');
      link.href = url
+     link.target = '_'
      link.setAttribute('download', 'template.xlsx');
      document.body.appendChild(link);
      link.click()

@@ -24,8 +24,8 @@ export default {
        }
     },
     actions: {
-        async exportData({ commit }) {
-            const res = await API.get(`/admin/records/export?`,{
+        async exportData({ commit }, status) {
+            const res = await API.get(`/admin/records/export?status=${status}`,{
                 headers:
                 {
                     'Content-Disposition': "attachment; filename=records.xlsx",
