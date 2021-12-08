@@ -121,7 +121,7 @@
            <v-stepper-content step="3">
              <p>Leave blank as the admin will input this fields.</p>
              <v-text-field type="text" class="pt-2" hide-details="auto" v-model="data.tes_award" outlined dense label="TES Award Number"></v-text-field>
-             <v-text-field type="text" class="pt-2" hide-details="auto" v-model="data.application_number" outlined dense label="Application Number"></v-text-field>
+             <v-text-field type="text" class="pt-2" hide-details="auto" v-model="data.tes_application_number" outlined dense label="Application Number"></v-text-field>
              <v-select :items="testype" class="pt-2" hide-details="auto" outlined v-model="data.tes_grant_type" label="Type of TES Grant" dense></v-select>
            </v-stepper-content> 
 
@@ -160,7 +160,7 @@ export default {
        birthdayModal: false,
        rules: {
          required: value => !!value || 'Required.',
-         mobile: value => value.length > 10 || 'Invalid Mobile Number',
+         mobile: value => value.length > 10 && value.length < 12 || 'Invalid Mobile Number',
          email: value => {
            const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
            return pattern.test(value) || 'Invalid e-mail.'
@@ -179,6 +179,7 @@ export default {
         year_level: '',
         email: '',
         password: '',
+        tes_application_number: '',
         confirm_password: '',
         street: '',
         barangay: '',

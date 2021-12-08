@@ -2,7 +2,7 @@
  <div>
    <v-container class="mb-15">
     <v-row align="center" justify="center">
-     <v-col md="10" lg="10" class="mr-6 ml-6">
+     <v-col cols="11" md="10" lg="10" class="mr-6 ml-6">
        <v-app-bar-nav-icon class="mt-6" @click.stop="setDrawerState"></v-app-bar-nav-icon>
        <v-layout align-center justify-center class="mt-8">
         <v-avatar color="primary" size="90">

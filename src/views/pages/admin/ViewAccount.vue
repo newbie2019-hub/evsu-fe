@@ -39,6 +39,9 @@
        <v-textarea type="text" class="mt-4" hide-details="auto" readonly v-model="selectedAccount.info.town" rows="2" outlined dense label="Town"></v-textarea>
        <v-text-field type="text" class="mt-4" hide-details="auto" readonly v-model="selectedAccount.info.province" outlined dense label="Province"></v-text-field>
        <v-text-field type="text" class="mt-4" hide-details="auto" readonly v-model="selectedAccount.info.zipcode" outlined dense label="Zip Code"></v-text-field>
+       <v-select :items="programs" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="selectedAccount.info.program" label="Program Name" dense></v-select>
+       <v-select :items="yearlevel" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="selectedAccount.info.year_level" label="Year Level" dense></v-select>
+        
        <p class="mt-6 text-uppercase primary--text">
         <v-icon color="primary">mdi-account-circle</v-icon>
         Contact Information

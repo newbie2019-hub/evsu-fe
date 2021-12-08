@@ -2,7 +2,7 @@
  <div>
    <v-container class="mb-15">
     <v-row align="center" justify="center">
-     <v-col md="10" lg="10" class="mr-6 ml-6">
+     <v-col cols="11" md="10" lg="10" class="mr-6 ml-6">
        <v-app-bar-nav-icon class="mt-6" @click.stop="setDrawerState"></v-app-bar-nav-icon>
        <v-layout align-center justify-center class="mt-8">
         <v-avatar color="primary" size="90">
@@ -15,51 +15,79 @@
           <p class="caption">{{ user.email}}</p>
          </v-col>
        </v-layout>
-       <p class="mt-6 text-uppercase primary--text">
-         <v-icon color="primary">mdi-account-circle</v-icon>
-         Personal Information
+
+        <p class="mt-6 text-uppercase primary--text">
+          <v-icon color="primary">mdi-account-circle</v-icon>
+          Personal Information
         </p>
-       <v-divider class="mt-2"></v-divider>
+        <v-divider class="mt-2"></v-divider>
        <v-form ref="form"  class="mt-5">
-         <v-text-field type="text" :loading="initialLoading" clearable outlined v-model="data.student_number" label="Student Number" dense :rules="[rules.required]"></v-text-field>
-         <v-text-field type="text" :loading="initialLoading" clearable outlined v-model="data.first_name" label="First Name" dense :rules="[rules.required]"></v-text-field>
-         <v-text-field type="text" :loading="initialLoading" clearable outlined v-model="data.middle_name" label="Middle Name" dense :rules="[rules.required]"></v-text-field>
-         <v-text-field type="text" :loading="initialLoading" clearable outlined v-model="data.last_name" label="Last Name" dense :rules="[rules.required]"></v-text-field>
-         <!-- <v-text-field type="text" :loading="initialLoading" clearable outlined v-model="data.contact_number" label="Contact Number" dense :rules="[rules.required]"></v-text-field>
-         <v-select :items="gender" outlined v-model="data.gender" label="Select gender" dense></v-select>
-         <v-dialog
-               ref="dialog"
-               v-model="birthdayModal"
-               :return-value.sync="date"
-               dense
-               persistent
-               width="290px">
-               <template v-slot:activator="{ on, attrs }">
-                 <v-text-field
-                   v-model="data.birthday"
-                   label="Date of Birth"
-                   v-bind="attrs"
-                   outlined
-                   v-on="on"
-                   dense
-                 ></v-text-field>
-               </template>
-               <v-date-picker v-model="data.birthday" scrollable>
-                 <v-spacer></v-spacer>
-                 <v-btn text color="primary" @click="birthdayModal = false">
-                   Cancel
-                 </v-btn>
-                 <v-btn text color="primary" @click="$refs.dialog.save(date)">
-                   OK
-                 </v-btn>
-               </v-date-picker>
-             </v-dialog> -->
+        <v-text-field type="text" class="mt-5" hide-details="auto" v-model="data.student_number" outlined dense label="Student Number"></v-text-field>
+        <v-text-field type="text" class="mt-4" hide-details="auto" :rules="[rules.required]" v-model="data.first_name" outlined dense label="First Name"></v-text-field>
+        <v-text-field type="text" class="mt-4" hide-details="auto" v-model="data.middle_name" outlined dense label="Middle Name"></v-text-field>
+        <v-text-field type="text" class="mt-4" hide-details="auto" :rules="[rules.required]" v-model="data.last_name" outlined dense label="Last Name"></v-text-field>
+        <v-text-field type="text" class="mt-4" hide-details="auto" v-model="data.ext_name" outlined dense label="Last Name"></v-text-field>
+        <v-select :items="gender" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="data.gender" label="Gender" dense></v-select>
+        <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.gwa" outlined dense label="GWA - Previous Sem"></v-text-field>
+        <v-text-field type="number" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.units" outlined dense label="Units Enrolled"></v-text-field>
+
+        <v-dialog
+            ref="dialog"
+            v-model="birthdayModal"
+            :return-value.sync="date"
+            persistent
+            width="290px"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                class="pt-2"
+                v-model="data.birthday"
+                label="Date of Birth"
+                readonly
+                outlined
+                dense
+                hide-details="auto"
+                v-bind="attrs"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="data.birthday" scrollable>
+              <v-spacer></v-spacer>
+              <v-btn text color="primary" @click="birthdayModal = false">
+                Cancel
+              </v-btn>
+              <v-btn text color="primary" @click="$refs.dialog.save(date)">
+                OK
+              </v-btn>
+            </v-date-picker>
+          </v-dialog>
+          <v-select :items="programs" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="data.program" label="Program Name" dense></v-select>
+          <v-select :items="yearlevel" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="data.year_level" label="Year Level" dense></v-select>
+          
+        <!-- <v-text-field type="text" class="mt-4" hide-details="auto" v-model="data.marital_status" outlined dense label="Marital Status"></v-text-field> -->
+        <v-text-field type="text" class="mt-4" hide-details="auto" :rules="[rules.required, rules.mobile]" v-model="data.contact_number1" outlined dense label="Primary Contact Number"></v-text-field>
+        <v-text-field type="text" class="mt-4" hide-details="auto" :rules="[rules.required, rules.mobile]" v-model="data.contact_number2" outlined dense label="Secondary Contact Number"></v-text-field>
+        <v-textarea type="text" class="mt-4" hide-details="auto" v-model="data.street" rows="2" outlined dense label="Street"></v-textarea>
+        <v-textarea type="text" class="mt-4" hide-details="auto" v-model="data.barangay" rows="2" outlined dense label="Barangay"></v-textarea>
+        <v-textarea type="text" class="mt-4" hide-details="auto" v-model="data.town" rows="2" outlined dense label="Town"></v-textarea>
+        <v-text-field type="text" class="mt-4" hide-details="auto" v-model="data.province" outlined dense label="Province"></v-text-field>
+        <v-text-field type="text" class="mt-4" hide-details="auto" v-model="data.zipcode" outlined dense label="Zip Code"></v-text-field>
+        <p class="mt-6 text-uppercase primary--text">
+          <v-icon color="primary">mdi-account-circle</v-icon>
+          Grant Type
+        </p>
+          <v-text-field type="text" class="mt-4" hide-details="auto" v-model="data.tes_award" outlined dense label="TES Award Number"></v-text-field>
+          <v-text-field type="text" class="mt-4" hide-details="auto" v-model="data.tes_application_number" outlined dense label="Application Number"></v-text-field>
+          <v-select :items="testype" class="mt-4" hide-details="auto" outlined v-model="data.tes_grant_type" label="Type of TES Grant" dense></v-select>
+        
          <p class="mt-4 text-uppercase primary--text">
             <v-icon color="primary">mdi-account-key</v-icon>
             Login Credentials
             </p>
           <v-divider class="mt-2 mb-5"></v-divider>
-          <v-text-field type="text" :loading="initialLoading" clearable outlined v-model="data.email" :rules="[rules.required, rules.email]" label="Email Address" prepend-inner-icon="mdi-email" dense>
+          <v-text-field type="email" class="mt-4 mb-4" hide-details="auto" v-model="data.email" outlined dense label="Primary Email Address">
+            <v-icon v-if="data.email_verified_at" slot="append" color="green">mdi-check</v-icon>
+            <v-icon v-else slot="append" color="red">mdi-window-close</v-icon>
           </v-text-field>
           <v-text-field type="password" 
             clearable 
@@ -151,25 +179,77 @@ export default {
       birthdayModal: false,
       date: '',
       data: {
-        student_number: '',
         first_name: '',
         middle_name: '',
+        birthday: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         last_name: '',
-        birthday: '',
+        ext_name: '',
         gender: '',
-        contact_number: '',
+        contact_number1: '',
+        contact_number2: '',
+        year_level: '',
+        tes_grant_type: '',
+        tes_award: '',
         email: '',
         password: '',
         confirm_password: '',
+        street: '',
+        barangay: '',
+        town: '',
+        program: '',
+        province: '',
+        filenames: [],
+        zipcode: '',
+        gwa: '',
+        academic_units: '',
       },
+      yearlevel: [{value: 'I', text: 'I'},{value: 'II', text: 'II'},{value: 'III', text: 'III'},{value: 'IV', text: 'IV'},{value: 'V', text: 'V'}],
+       programs: [
+        {value: '(BEEd) - Bachelor of Elementary Education ', text: '(BEEd) - Bachelor of Elementary Education'},
+        {value: '(BECEd) - Bachelor of Early Childhood Education', text: '(BECEd) - Bachelor of Early Childhood Education'},
+        {value: '(BSNEd) - Bachelor of Special Needs Education', text: '(BSNEd) - Bachelor of Special Needs Education'},
+        {value: '(BPEd) - Bachelor of Physical Education', text: '(BPEd) - Bachelor of Physical Education'},
+        {value: '(BTLEd) - Bachelor of Technology and Livelihood Education', text: '(BTLEd) - Bachelor of Technology and Livelihood Education'},
+        {value: '(BSEd ENGLISH) - Bachelor of Secondary Education Major in English', text: '(BSEd ENGLISH) - Bachelor of Secondary Education Major in English'},
+        {value: '(BSEd FILIPINO) - Bachelor of Secondary Education Major in Filipino', text: '(BSEd FILIPINO) - Bachelor of Secondary Education Major in Filipino'},
+        {value: '(BSEd MATH) - Bachelor of Secondary Education Major in Math', text: '(BSEd MATH) - Bachelor of Secondary Education Major in Math'},
+        {value: '(BSEd SOCIAL STUDIES) - Bachelor of Secondary Education Major in Social Studies', text: '(BSEd SOCIAL STUDIES) - Bachelor of Secondary Education Major in Social Studies'},
+        {value: '(BSEd SCIENCE) - Bachelor of Secondary Education Major in Science', text: '(BSEd SCIENCE) - Bachelor of Secondary Education Major in Science'},
+        {value: '(BSA) - Bachelor of Science in Accountancy', text: '(BSA) - Bachelor of Science in Accountancy'},
+        {value: '(BSBA MM) - Bachelor of Science in Business Adminstration Major in Marketing Management', text: '(BSBA MM) - Bachelor of Science in Business Adminstration Major in Marketing Management'},
+        {value: '(BSBA HRM) - Bachelor of Science in Business Adminstration Major in Human Resource Management', text: '(BSBA HRM) - Bachelor of Science in Business Adminstration Major in Human Resource Management'},
+        {value: '(BSBA FM) - Bachelor of Science in Business Adminstration Major in Financial Management', text: '(BSBA FM) - Bachelor of Science in Business Adminstration Major in Financial Management'},
+        {value: '(BSBA OM) - Bachelor of Science in Business Adminstration Major in Operations Management', text: '(BSBA OM) - Bachelor of Science in Business Adminstration Major in Operations Management'},
+        {value: '(BSOA) - Bachelor of Science in Office Administration', text: '(BSOA) - Bachelor of Science in Office Administration'},
+        {value: '(BSHM) - Bachelor of Science in Hospitality Management', text: '(BSHM) - Bachelor of Science in Hospitality Management'},
+        {value: '(BS TM) - Bachelor of Science in Tourism Management', text: '(BS TM) - Bachelor of Science in Tourism Management'},
+        {value: '(BS PSYCH) - Bachelor of Science in Psychology', text: '(BS PSYCH) - Bachelor of Science in Psychology'},
+        {value: '(BSIT) - Bachelor of Science in Information Technology', text: '(BSIT) - Bachelor of Science in Information Technology'},
+        {value: 'Technology', text: '(BLIS) - Bachelor of Library and Information Science'},
+       ],
       rules: {
           required: value => !!value || 'Required.',
+          mobile: value => value.length > 10 && value.length < 12 || 'Invalid Mobile Number',
           email: value => {
             const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             return pattern.test(value) || 'Invalid e-mail.'
           },
       },
       changePassword: false,
+      testype: [
+         {
+           value: 'Listahanan', text: 'Listahanan'
+         },
+         {
+           value: '4Ps', text: '4Ps'
+         },
+         {
+           value: 'SWDI', text: 'SWDI'
+         },
+         {
+           value: 'ESGPPA', text: 'ESGPPA'
+         },
+       ],
       gender: [
         { value: "Male", text: "Male"},
         { value: "Female", text: "Female"},
@@ -181,6 +261,7 @@ export default {
   },
   async mounted(){
     this.initialLoading = true
+    document.title = "Account Settings"
     await this.$store.dispatch('auth/checkAuthUser')
     this.setDetails()
     this.initialLoading = false
@@ -207,10 +288,24 @@ export default {
      this.data.first_name = this.user.info.first_name
      this.data.middle_name = this.user.info.middle_name
      this.data.last_name = this.user.info.last_name
+     this.data.ext_name = this.user.info.ext_name
      this.data.gender = this.user.info.gender
      this.data.birthday = this.user.info.birthday
-     this.data.contact_number = this.user.info.contact_number
+     this.data.contact_number1 = this.user.info.contact_number
+     this.data.contact_number2 = this.user.info.contact_number2
      this.data.email = this.user.email
+     this.data.street = this.user.info.street
+     this.data.gwa = this.user.info.gwa
+     this.data.units = this.user.info.academic_units
+     this.data.barangay = this.user.info.barangay
+     this.data.town = this.user.info.town
+     this.data.province = this.user.info.province
+     this.data.zipcode = this.user.info.zipcode
+     this.data.program = this.user.info.program
+     this.data.year_level = this.user.info.year_level
+     this.data.tes_award = this.user.info.tes_award
+     this.data.tes_application_number = this.user.info.tes_application_number
+     this.data.tes_grant_type = this.user.info.tes_grant_type
    },
    async save(){
      this.$refs.form.validate()
