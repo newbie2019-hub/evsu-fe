@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@capacitor/android": "^3.2.5",
+    "@capacitor/app-launcher": "^1.0.7",
     "@capacitor/core": "^3.2.5",
     "@mdi/font": "5.9.55",
     "axios": "^0.23.0",

@@ -59,6 +59,7 @@
 <script>
 import UserAvatar from '../../components/UserAvatar.vue'
 import { mapState } from 'vuex';
+import { AppLauncher } from '@capacitor/app-launcher';
 export default {
   data(){
    return {
@@ -103,6 +104,8 @@ export default {
      link.setAttribute('download', 'template.xlsx');
      document.body.appendChild(link);
      link.click()
+
+     await AppLauncher.openUrl({ url: url });
      this.isLoading = false
    }
   },

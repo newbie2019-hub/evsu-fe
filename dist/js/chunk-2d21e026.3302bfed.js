@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d21e026"],{d477:function(n,e,r){"use strict";r.r(e),r.d(e,"AppLauncherWeb",(function(){return a}));var c=r("1547");class a extends c["a"]{async canOpenUrl(n){return{value:!0}}async openUrl(n){return window.open(n.url,"_blank"),{completed:!0}}}}}]);
+//# sourceMappingURL=chunk-2d21e026.3302bfed.js.map
