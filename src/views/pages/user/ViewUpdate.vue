@@ -32,6 +32,7 @@ export default {
    ...mapState('updates', ['view_update'])
   },
  async mounted(){
+    await this.$store.dispatch('updates/incrementView', this.view_update.id)
     this.data = {
       id: this.view_update.id,
       title: this.view_update.title,

@@ -25,6 +25,9 @@
          {{ update.post_excerpt }}
         </p>
        </div>
+       <div class="text--primary mt-3">
+        <p class="w-100">Views: {{ update.views }}</p>
+       </div>
       </v-card-text>
      </v-card>
     </v-col>

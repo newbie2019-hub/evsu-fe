@@ -37,6 +37,16 @@ export default {
         }
     },
     actions: {
+        async incrementView({ commit }, id) {
+            const res = await API.post(`/user/view/post/${id}`).then(res => {
+                commit('SET_UPDATES', res.data)
+                return res;
+            }).catch(err => {
+                return err.response
+            })
+
+            return res;
+        },
         async getUpdates({ commit }, page) {
             const res = await API.get(`/admin/post?page=${page}`).then(res => {
                 commit('SET_UPDATES', res.data)

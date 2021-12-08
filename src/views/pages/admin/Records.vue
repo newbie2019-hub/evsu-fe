@@ -59,7 +59,7 @@
 <script>
 import UserAvatar from '../../components/UserAvatar.vue'
 import { mapState } from 'vuex';
-import { AppLauncher } from '@capacitor/app-launcher';
+import { Browser } from '@capacitor/browser';
 export default {
   data(){
    return {
@@ -105,7 +105,9 @@ export default {
      document.body.appendChild(link);
      link.click()
 
-     await AppLauncher.openUrl({ url: url });
+     //Enable for mobile application
+    //  await Browser.open({ url: `https://be.tesgrant.info/api/admin/records/export?status=${this.selectedStatus}` });
+
      this.isLoading = false
    }
   },
