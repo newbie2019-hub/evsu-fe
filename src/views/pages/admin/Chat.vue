@@ -14,6 +14,15 @@
              class="pt-0"
            ></v-text-field>
          </v-card-title>
+          <v-card-title>
+          <v-select
+            v-model="selectedStatus"
+            @change="getAccounts"
+            :items="filterStatus"
+            label="Status"
+            dense
+          ></v-select>
+        </v-card-title>
          <h4 class="mt-3 mb-3 font-weight-regular">Select a user to start a chat</h4>
          <v-data-iterator
            sort-by=""
@@ -82,6 +91,10 @@ export default {
     search: '',
     hasSelected: false,
     chatUserName: '',
+    filterStatus: [
+      'Officially Enrolled', 'Unofficial', 'All Records'
+    ],
+    selectedStatus: 'All Records',
   }
  },
  computed: {
@@ -90,7 +103,7 @@ export default {
  },
  methods: {
   async getAccounts(){
-   await this.$store.dispatch('auth/getAccounts', this.search);
+   await this.$store.dispatch('auth/getAccounts', {search: this.search, status: this.selectedStatus});
   },
   retrieveMessages(item){
     this.hasSelected = true

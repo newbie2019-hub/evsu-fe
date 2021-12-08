@@ -19,7 +19,7 @@
           <p class="text-h5">{{ selectedAccount.info.first_name }} {{selectedAccount.info.last_name}}</p>
           <p class="caption">{{ selectedAccount.email}}</p>
           <p class="caption">Date Registered: {{ selectedAccount.created_at}}</p>
-          <!-- <v-chip class="white--text mt-1" :color="selectedApplicant.status.status == 0 ? 'red darken-2' : 'green darken-2'" x-small>{{selectedApplicant.status.status == 0 ? 'Not Qualified' : 'Qualified'}}</v-chip> -->
+          <v-chip class="white--text mt-1" :color="selectedAccount.enrollment_status == 'Unofficial' ? 'red darken-2' : 'green darken-2'" x-small>{{selectedAccount.enrollment_status}}</v-chip>
          </v-col>
        </v-layout>
        <p class="mt-6 text-uppercase primary--text">
@@ -27,13 +27,36 @@
         Personal Information
        </p>
        <v-divider class="mt-2"></v-divider>
-       <v-text-field type="text" class="mt-5" hide-details="auto" readonly v-model="selectedAccount.student_number" outlined dense label="Student Number"></v-text-field>
+        <v-text-field type="text" class="mt-5" hide-details="auto" readonly v-model="selectedAccount.student_number" outlined dense label="Student Number"></v-text-field>
        <v-text-field type="text" class="mt-4" hide-details="auto" readonly v-model="selectedAccount.info.first_name" outlined dense label="First Name"></v-text-field>
        <v-text-field type="text" class="mt-4" hide-details="auto" readonly v-model="selectedAccount.info.middle_name" outlined dense label="Middle Name"></v-text-field>
        <v-text-field type="text" class="mt-4" hide-details="auto" readonly v-model="selectedAccount.info.last_name" outlined dense label="Last Name"></v-text-field>
+       <v-text-field type="text" class="mt-4" hide-details="auto" readonly v-model="selectedAccount.info.gender" outlined dense label="Gender"></v-text-field>
+       <v-text-field type="text" class="mt-4" hide-details="auto" readonly v-model="selectedAccount.info.birthday" outlined dense label="Birthday"></v-text-field>
+       <!-- <v-text-field type="text" class="mt-4" hide-details="auto" readonly v-model="selectedAccount.info.marital_status" outlined dense label="Marital Status"></v-text-field> -->
+       <v-textarea type="text" class="mt-4" hide-details="auto" readonly v-model="selectedAccount.info.street" rows="2" outlined dense label="Street"></v-textarea>
+       <v-textarea type="text" class="mt-4" hide-details="auto" readonly v-model="selectedAccount.info.barangay" rows="2" outlined dense label="Barangay"></v-textarea>
+       <v-textarea type="text" class="mt-4" hide-details="auto" readonly v-model="selectedAccount.info.town" rows="2" outlined dense label="Town"></v-textarea>
+       <v-text-field type="text" class="mt-4" hide-details="auto" readonly v-model="selectedAccount.info.province" outlined dense label="Province"></v-text-field>
+       <v-text-field type="text" class="mt-4" hide-details="auto" readonly v-model="selectedAccount.info.zipcode" outlined dense label="Zip Code"></v-text-field>
+       <p class="mt-6 text-uppercase primary--text">
+        <v-icon color="primary">mdi-account-circle</v-icon>
+        Contact Information
+       </p>
+       <v-text-field type="email" readonly class="mt-4" hide-details="auto" v-model="selectedAccount.email" outlined dense label="Primary Email Address">
+        <v-icon v-if="selectedAccount.email_verified_at" slot="append" color="green">mdi-check</v-icon>
+        <v-icon v-else slot="append" color="red">mdi-window-close</v-icon>
+       </v-text-field>
+       <v-text-field type="text" readonly class="mt-4" hide-details="auto" v-model="selectedAccount.info.contact_number" outlined dense label="Primary Contact Number"></v-text-field>
+       <v-text-field type="text" readonly class="mt-4" hide-details="auto" v-model="selectedAccount.info.contact_number2" outlined dense label="Secondary Contact Number"></v-text-field>
+       <p class="mt-6 text-uppercase primary--text">
+        <v-icon color="primary">mdi-account-circle</v-icon>
+        Grant Type
+       </p>
        <v-text-field type="text" class="mt-4" hide-details="auto" readonly v-model="selectedAccount.info.tes_award" outlined dense label="TES Award Number"></v-text-field>
-       <v-text-field type="email" readonly class="mt-4" hide-details="auto" v-model="selectedAccount.email" outlined dense label="Email Address"></v-text-field>
-     
+       <v-text-field type="text" class="mt-4" hide-details="auto" readonly v-model="selectedAccount.info.tes_application_number" outlined dense label="Application Number"></v-text-field>
+       <v-select :items="testype" class="mt-4" hide-details="auto" readonly outlined v-model="selectedAccount.info.tes_grant_type" label="Type of TES Grant" dense></v-select>
+      
       <v-layout class="mt-5">
          <v-dialog
             v-model="dialogApprove"
@@ -121,7 +144,21 @@ export default {
       },
       approve_data: {
        id: ''
-      }
+      },
+      testype: [
+        {
+          value: 'Listahanan', text: 'Listahanan'
+        },
+        {
+          value: '4Ps', text: '4Ps'
+        },
+        {
+          value: 'SWDI', text: 'SWDI'
+        },
+        {
+          value: 'ESGPPA', text: 'ESGPPA'
+        },
+      ],
      
     }
   },

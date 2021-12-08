@@ -85,6 +85,22 @@ export default {
    } 
   },
   actions: {
+    async exportData({ commit }, status) {
+      const res = await API.get(`/admin/accounts/export?status=${status}`,{
+          headers:
+          {
+              'Content-Disposition': "attachment; filename=accounts.xlsx",
+              'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          },
+          responseType: 'arraybuffer',
+      }).then(res => {
+          return res;
+      }).catch(err => {
+          return err.response
+      })
+
+      return res;
+    },
     async getAdminLogs({commit}){
       const res = await API.get('/auth/admin/logs').then(res => {
         commit('SET_ADMIN_LOGS', res.data)
@@ -141,8 +157,8 @@ export default {
 
       return res;
     },
-    async getAccounts({commit}, data){
-      const res = await API.get(`/auth/admin/accounts?search=${data}`).then(res => {
+    async getAccounts({commit},{search, status}){
+      const res = await API.get(`/auth/admin/accounts?search=${search}&status=${status}`).then(res => {
         commit('SET_ACCOUNTS', res.data);
 
         return res;

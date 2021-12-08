@@ -58,7 +58,7 @@
         Grant Type
        </p>
         <v-text-field type="text" class="mt-4" hide-details="auto" v-model="selectedApplicant.info.tes_award" outlined dense label="TES Award Number"></v-text-field>
-        <v-text-field type="text" class="mt-4" hide-details="auto" v-model="selectedApplicant.info.application_number" outlined dense label="Application Number"></v-text-field>
+        <v-text-field type="text" class="mt-4" hide-details="auto" v-model="selectedApplicant.info.tes_application_number" outlined dense label="Application Number"></v-text-field>
         <v-select :items="testype" class="mt-4" hide-details="auto" outlined v-model="selectedApplicant.info.tes_grant_type" label="Type of TES Grant" dense></v-select>
       
       <v-layout class="mt-5">
@@ -113,7 +113,7 @@ export default {
       },
       testype: [
         {
-          value: 'Listahan', text: 'Listahan'
+          value: 'Listahanan', text: 'Listahanan'
         },
         {
           value: '4Ps', text: '4Ps'
@@ -135,7 +135,7 @@ export default {
    if(this.selectedApplicant == 0) return this.$router.back()
   },
   methods: {
-    
+   
     async deleteApplicant() {
       this.delete_data.id = this.selectedApplicant.id
       const { status, data } = await this.$store.dispatch('applicant/deleteApplicant', this.delete_data);

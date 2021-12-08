@@ -222,7 +222,7 @@ export default {
        ],
        testype: [
          {
-           value: 'Listahan', text: 'Listahan'
+           value: 'Listahanan', text: 'Listahanan'
          },
          {
            value: '4Ps', text: '4Ps'
