@@ -16,9 +16,9 @@
        </v-layout>
        <v-layout class="mt-2">
          <v-col class="text-center">
-          <p class="text-h5">{{ selectedApplicant.info.first_name }} {{selectedApplicant.info.last_name}}</p>
-          <p class="caption">{{ selectedApplicant.email}}</p>
-          <p class="caption">Date Registered: {{ selectedApplicant.created_at}}</p>
+          <h2 class="">{{ selectedApplicant.info.first_name }} {{selectedApplicant.info.last_name}}</h2>
+          <p class="">{{ selectedApplicant.email}}</p>
+          <p class="">Date Registered: {{ selectedApplicant.created_at}}</p>
           <v-chip class="white--text mt-1" :color="selectedApplicant.status == 'Unofficial' ? 'red darken-2' : 'green darken-2'" x-small>{{selectedApplicant.status == 'Official' ? 'Officially Enrolled' : 'Unofficial'}}</v-chip>
          </v-col>
        </v-layout>
@@ -43,6 +43,7 @@
         <v-icon color="primary">mdi-account-circle</v-icon>
         Contact Information
        </p>
+       <v-divider class="mt-2"></v-divider>
        <v-text-field type="email" readonly class="mt-4" hide-details="auto" v-model="selectedApplicant.email" outlined dense label="Primary Email Address">
          <v-icon v-if="selectedApplicant.email_verified_at" slot="append" color="green">mdi-check</v-icon>
          <v-icon v-else slot="append" color="red">mdi-window-close</v-icon>
@@ -57,10 +58,21 @@
         <v-icon color="primary">mdi-account-circle</v-icon>
         Grant Type
        </p>
-        <v-text-field type="text" class="mt-4" hide-details="auto" v-model="selectedApplicant.info.tes_award" outlined dense label="TES Award Number"></v-text-field>
-        <v-text-field type="text" class="mt-4" hide-details="auto" v-model="selectedApplicant.info.tes_application_number" outlined dense label="Application Number"></v-text-field>
-        <v-select :items="testype" class="mt-4" hide-details="auto" outlined v-model="selectedApplicant.info.tes_grant_type" label="Type of TES Grant" dense></v-select>
-      
+       <v-divider class="mt-2"></v-divider>
+       <v-text-field type="text" class="mt-4" hide-details="auto" v-model="selectedApplicant.info.tes_award" outlined dense label="TES Award Number"></v-text-field>
+       <v-text-field type="text" class="mt-4" hide-details="auto" v-model="selectedApplicant.info.tes_application_number" outlined dense label="Application Number"></v-text-field>
+       <v-select :items="testype" class="mt-4" hide-details="auto" outlined v-model="selectedApplicant.info.tes_grant_type" label="Type of TES Grant" dense></v-select>
+       <p class="mt-6 text-uppercase primary--text">
+        <v-icon color="primary">mdi-note-multiple</v-icon>
+        School Info
+       </p> 
+       <v-divider class="mt-2"></v-divider>
+       <div v-for="(data, i) in selectedApplicant.schoolinfo" :key="i">
+           <v-select :items="schoolyear" class="pt-2" hide-details="auto" readonly outlined v-model="data.school_year" label="School Year" dense></v-select>
+           <v-select :items="semester" class="pt-2" hide-details="auto" readonly outlined v-model="data.semester" label="Semester" dense></v-select>
+           <v-text-field type="text" class="pt-2" hide-details="auto" readonly v-model="data.gwa" outlined dense label="GWA"></v-text-field>
+           <v-text-field type="number" class="pt-2" hide-details="auto" readonly v-model="data.units" outlined dense label="Units Enrolled"></v-text-field>
+       </div> 
       <v-layout class="mt-5">
          <v-dialog
             v-model="dialogDelete"
@@ -108,6 +120,84 @@ export default {
   data(){
     return {
       dialogDelete: false,
+      schoolyear: [
+         {
+          value: '2016-2017', text: '2016-2017'
+         },
+         {
+          value: '2017-2018', text: '2017-2018'
+         },
+         {
+          value: '2018-2019', text: '2018-2019'
+         },
+         {
+          value: '2019-2020', text: '2019-2020'
+         },
+         {
+          value: '2020-2021', text: '2020-2021'
+         },
+         {
+          value: '2021-2022', text: '2021-2022'
+         },
+         {
+          value: '2022-2023', text: '2022-2023'
+         },
+         {
+          value: '2023-2024', text: '2023-2024'
+         },
+         {
+          value: '2024-2025', text: '2024-2025'
+         },
+         {
+          value: '2025-2026', text: '2025-2026'
+         },
+         {
+          value: '2026-2027', text: '2026-2027'
+         },
+         {
+          value: '2027-2028', text: '2027-2028'
+         },
+         {
+          value: '2028-2029', text: '2028-2029'
+         },
+         {
+          value: '2029-2030', text: '2029-2030'
+         },
+         {
+          value: '2030-2031', text: '2030-2031'
+         },
+         {
+          value: '2031-2032', text: '2031-2032'
+         },
+         {
+          value: '2032-2033', text: '2032-2033'
+         },
+         {
+          value: '2033-2034', text: '2033-2034'
+         },
+         {
+          value: '2034-2035', text: '2034-2035'
+         },
+         {
+          value: '2035-2036', text: '2035-2036'
+         },
+         {
+          value: '2036-2037', text: '2036-2037'
+         },
+         {
+          value: '2037-2038', text: '2037-2038'
+         },
+         {
+          value: '2038-2039', text: '2038-2039'
+         },
+         {
+          value: '2039-2040', text: '2039-2040'
+         },
+       ],
+       semester: [
+         { value: '1st Semester', text: '1st Semester'},
+         { value: '2nd Semester', text: '2nd Semester'},
+       ],
       delete_data: {
         id: ''
       },

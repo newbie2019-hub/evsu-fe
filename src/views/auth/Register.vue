@@ -24,7 +24,6 @@
              step="1">
              Student Data
            </v-stepper-step>
-
            <v-stepper-content step="1">
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.student_id" outlined dense label="Student ID"></v-text-field>
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.first_name" outlined dense label="First Name"></v-text-field>
@@ -33,16 +32,15 @@
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.ext_name" outlined dense label="Ext. Name"></v-text-field>
              <v-select :items="gender" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="data.gender" label="Gender" dense></v-select>
              <!-- <v-select :items="status" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="data.marital_status" label="Marital Status" dense></v-select> -->
-             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.gwa" outlined dense label="GWA - Previous Sem"></v-text-field>
-             <v-text-field type="number" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.units" outlined dense label="Units Enrolled"></v-text-field>
+             <!-- <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.gwa" outlined dense label="GWA - Previous Sem"></v-text-field>
+             <v-text-field type="number" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.units" outlined dense label="Units Enrolled"></v-text-field> -->
 
             <v-dialog
                ref="dialog"
                v-model="birthdayModal"
                :return-value.sync="date"
                persistent
-               width="290px"
-             >
+               width="300px">
                <template v-slot:activator="{ on, attrs }">
                  <v-text-field
                    class="pt-2"
@@ -70,7 +68,7 @@
              <v-select :items="yearlevel" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="data.year_level" label="Year Level" dense></v-select>
              
              <v-btn
-               color="primary" small class="mt-3"
+               color="primary" class="mt-3"
                @click="currentStep = 2">
                Next
              </v-btn>
@@ -78,69 +76,87 @@
 
            <v-stepper-step editable
              step="2">
-             Address Information
+             School Information
            </v-stepper-step>
 
            <v-stepper-content step="2">
+             <div v-for="(data, i) in data.schoolyearinfo" :key="i">
+              <p class="mt-2">Please fill-in this data accurately</p>
+              <v-divider class="mt-2 mb-2"></v-divider>
+              <v-select :items="schoolyear" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="data.schoolyear" label="School Year" dense></v-select>
+              <v-select :items="semester" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="data.semester" label="Semester" dense></v-select>
+              <v-text-field type="text" class="pt-2" hide-details="auto" v-model="data.gwa" outlined dense label="GWA"></v-text-field>
+              <v-text-field type="number" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.units" outlined dense label="Units Enrolled"></v-text-field>
+              <v-btn
+                color="error" class="mt-3 mr-2"
+                v-if="i > 0"
+                @click="removeFields(i)">
+                Remove Fields
+              </v-btn>
+             </div>
+             <v-btn
+               color="primary" class="mt-3 mr-2"
+               @click="addFields">
+               Add Fields
+             </v-btn>
+             <v-btn
+               color="primary" class="mt-3"
+               @click="currentStep = 3">
+               Next
+             </v-btn>
+           </v-stepper-content>
+           
+           <v-stepper-step editable
+             step="3">
+             Address Information
+           </v-stepper-step>
+
+           <v-stepper-content step="3">
              <v-text-field type="text" class="pt-1" hide-details="auto" :rules="[rules.required]" v-model="data.street" outlined dense label="Street"></v-text-field>
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.barangay" outlined dense label="Barangay"></v-text-field>
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.town" outlined dense label="Town"></v-text-field>
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.province" outlined dense label="Province"></v-text-field>
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.zipcode" outlined dense label="Zip Code"></v-text-field>
              <v-btn
-               color="primary" small class="mt-3"
-               @click="currentStep = 3">
+               color="primary" class="mt-3"
+               @click="currentStep = 4">
                Next
              </v-btn>
            </v-stepper-content>
 
-           <!-- <v-stepper-content step="2">
-             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.father_first_name" outlined dense label="Father's First Name"></v-text-field>
-             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.father_middle_name" outlined dense label="Father's Middle Name"></v-text-field>
-             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.father_last_name" outlined dense label="Father's Last Name"></v-text-field>
-             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.father_monthly_salary" outlined dense label="Father's Monthly Salary"></v-text-field>
-             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.mother_first_name" outlined dense label="Mother's First Name"></v-text-field>
-             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.mother_maiden_name" outlined dense label="Mother's Maiden Name"></v-text-field>
-             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.mother_last_name" outlined dense label="Mother's Last Name"></v-text-field>
-             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.mother_monthly_salary" outlined dense label="Mother's Monthly Salary"></v-text-field>
-             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.siblings_monthly_salary" outlined dense label="Siblings Monthly Salary"></v-text-field>
-             <v-text-field type="number" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.house_member" outlined dense label="House Member"></v-text-field>
-             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.household_number" outlined dense label="Household Number"></v-text-field>
-             <v-text-field type="text" class="pt-2" hide-details="auto" v-model="data.fourps" outlined dense label="4Ps Number (Optional)"></v-text-field>
-             <v-btn
-               color="primary" small class="mt-3"
-               @click="currentStep = 3">
-               Next
-             </v-btn>
-           </v-stepper-content> -->
            <v-stepper-step editable
-             step="3">
+             step="4">
              TES Grant Info
            </v-stepper-step>
 
-           <v-stepper-content step="3">
+           <v-stepper-content step="4">
              <p>Leave blank as the admin will input this fields.</p>
              <v-text-field type="text" class="pt-2" hide-details="auto" v-model="data.tes_award" outlined dense label="TES Award Number"></v-text-field>
              <v-text-field type="text" class="pt-2" hide-details="auto" v-model="data.tes_application_number" outlined dense label="Application Number"></v-text-field>
              <v-select :items="testype" class="pt-2" hide-details="auto" outlined v-model="data.tes_grant_type" label="Type of TES Grant" dense></v-select>
+             <v-btn
+               color="primary" class="mt-3"
+               @click="currentStep = 5">
+               Next
+             </v-btn>
            </v-stepper-content> 
 
-           <v-stepper-step step="4"  editable>
+           <v-stepper-step step="5"  editable>
              Contact and Email Information
            </v-stepper-step>
 
-           <v-stepper-content step="4">
-             <p class="grey--text caption">A confirmation email will be sent to your account. Please verify both of your emails as this will be used to send you updates.</p>
+           <v-stepper-content step="5">
+             <p class="grey--text">A confirmation email will be sent to your account. Please verify both of your emails as this will be used to send you updates.</p>
              <v-text-field type="email" class="pt-2" :rules="[rules.required, rules.email]" hide-details="auto" v-model="data.email" outlined dense label="Email Address"></v-text-field>
              <v-text-field type="password" class="pt-2" :rules="[rules.required]" hide-details="auto" v-model="data.password" outlined dense label="Password"></v-text-field>
              <v-text-field type="password" class="pt-2" :rules="[rules.required]" hide-details="auto" v-model="data.confirm_password" outlined dense label="Confirm Password"></v-text-field>
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required, rules.mobile]"  v-model="data.contact_number1" outlined dense label="Primary Contact Number"></v-text-field>
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required, rules.mobile]"  v-model="data.contact_number2" outlined dense label="Secondary Contact Number"></v-text-field>
              
-             <v-btn type="submit" small color="primary" :loading="isLoading" class="mt-3 mr-2">
+             <v-btn type="submit" color="primary" :loading="isLoading" class="mt-3 mr-2">
                Submit
              </v-btn>
-             <v-btn type="button" @click.prevent="$router.back()" small color="grey" class="mt-3">
+             <v-btn type="button" @click.prevent="$router.back()" color="grey" class="mt-3">
                Cancel
              </v-btn>
            </v-stepper-content>
@@ -166,6 +182,84 @@ export default {
            return pattern.test(value) || 'Invalid e-mail.'
          },
        },
+       schoolyear: [
+         {
+          value: '2016-2017', text: '2016-2017'
+         },
+         {
+          value: '2017-2018', text: '2017-2018'
+         },
+         {
+          value: '2018-2019', text: '2018-2019'
+         },
+         {
+          value: '2019-2020', text: '2019-2020'
+         },
+         {
+          value: '2020-2021', text: '2020-2021'
+         },
+         {
+          value: '2021-2022', text: '2021-2022'
+         },
+         {
+          value: '2022-2023', text: '2022-2023'
+         },
+         {
+          value: '2023-2024', text: '2023-2024'
+         },
+         {
+          value: '2024-2025', text: '2024-2025'
+         },
+         {
+          value: '2025-2026', text: '2025-2026'
+         },
+         {
+          value: '2026-2027', text: '2026-2027'
+         },
+         {
+          value: '2027-2028', text: '2027-2028'
+         },
+         {
+          value: '2028-2029', text: '2028-2029'
+         },
+         {
+          value: '2029-2030', text: '2029-2030'
+         },
+         {
+          value: '2030-2031', text: '2030-2031'
+         },
+         {
+          value: '2031-2032', text: '2031-2032'
+         },
+         {
+          value: '2032-2033', text: '2032-2033'
+         },
+         {
+          value: '2033-2034', text: '2033-2034'
+         },
+         {
+          value: '2034-2035', text: '2034-2035'
+         },
+         {
+          value: '2035-2036', text: '2035-2036'
+         },
+         {
+          value: '2036-2037', text: '2036-2037'
+         },
+         {
+          value: '2037-2038', text: '2037-2038'
+         },
+         {
+          value: '2038-2039', text: '2038-2039'
+         },
+         {
+          value: '2039-2040', text: '2039-2040'
+         },
+       ],
+       semester: [
+         { value: '1st Semester', text: '1st Semester'},
+         { value: '2nd Semester', text: '2nd Semester'},
+       ],
        currentStep: 1,
        isValid: false,
        date: '',
@@ -190,6 +284,14 @@ export default {
         zipcode: '',
         gwa: '',
         academic_units: '',
+        schoolyearinfo: [
+          {
+            units: '',
+            gwa: '',
+            schoolyear: '',
+            semester: '',
+          },
+        ]
        },
        gender: [
         { value: "Male", text: "Male"},
@@ -253,6 +355,12 @@ export default {
     // testData()
    },
    methods: {
+    removeFields(i){
+      this.data.schoolyearinfo.splice(i, 1)
+    },
+    addFields(){
+      this.data.schoolyearinfo.push({units: '', gwa: '', schoolyear: '', semester: ''})
+    },
     async apply(){
      this.isValid = this.$refs.form.validate()
      if(this.isValid){

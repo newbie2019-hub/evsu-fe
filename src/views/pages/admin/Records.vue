@@ -4,7 +4,7 @@
   <v-container class="mb-14 p-4">
     <v-row align="center" justify="center">
       <v-col cols="11" sm="10" lg="7">
-        <h3 class="primary--text">Applicant Records</h3>
+        <h2 class="primary--text">Applicant Records</h2>
         <p class="grey--text lighten-1 caption">Welcome, Here are the applicants</p>
       </v-col>
     </v-row>

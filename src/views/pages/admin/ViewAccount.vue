@@ -8,7 +8,7 @@
        Return
     </v-btn>
     <v-row align="center" justify="center">
-     <v-col md="7" lg="6" class="mr-6 ml-6">
+     <v-col cols="11" md="8" lg="8" class="mr-6 ml-6">
        <v-layout align-center justify-center class="mt-8">
         <v-avatar color="primary" size="90">
            <span class="white--text text-h4">{{ selectedAccount.info.first_name[0] }}{{selectedAccount.info.last_name[0]}}</span>
@@ -16,9 +16,9 @@
        </v-layout>
        <v-layout class="mt-2">
          <v-col class="text-center">
-          <p class="text-h5">{{ selectedAccount.info.first_name }} {{selectedAccount.info.last_name}}</p>
-          <p class="caption">{{ selectedAccount.email}}</p>
-          <p class="caption">Date Registered: {{ selectedAccount.created_at}}</p>
+          <h2 class="">{{ selectedAccount.info.first_name }} {{selectedAccount.info.last_name}}</h2>
+          <p class="">{{ selectedAccount.email}}</p>
+          <p class="">Date Registered: {{ selectedAccount.created_at}}</p>
           <v-chip class="white--text mt-1" :color="selectedAccount.enrollment_status == 'Unofficial' ? 'red darken-2' : 'green darken-2'" x-small>{{selectedAccount.enrollment_status}}</v-chip>
          </v-col>
        </v-layout>
@@ -39,8 +39,8 @@
        <v-textarea type="text" class="mt-4" hide-details="auto" readonly v-model="selectedAccount.info.town" rows="2" outlined dense label="Town"></v-textarea>
        <v-text-field type="text" class="mt-4" hide-details="auto" readonly v-model="selectedAccount.info.province" outlined dense label="Province"></v-text-field>
        <v-text-field type="text" class="mt-4" hide-details="auto" readonly v-model="selectedAccount.info.zipcode" outlined dense label="Zip Code"></v-text-field>
-       <v-select :items="programs" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="selectedAccount.info.program" label="Program Name" dense></v-select>
-       <v-select :items="yearlevel" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="selectedAccount.info.year_level" label="Year Level" dense></v-select>
+       <v-text-field class="pt-2" hide-details="auto" outlined v-model="selectedAccount.info.program" label="Program Name" dense></v-text-field>
+       <v-text-field class="pt-2" hide-details="auto" outlined v-model="selectedAccount.info.year_level" label="Year Level" dense></v-text-field>
         
        <p class="mt-6 text-uppercase primary--text">
         <v-icon color="primary">mdi-account-circle</v-icon>
@@ -59,7 +59,17 @@
        <v-text-field type="text" class="mt-4" hide-details="auto" readonly v-model="selectedAccount.info.tes_award" outlined dense label="TES Award Number"></v-text-field>
        <v-text-field type="text" class="mt-4" hide-details="auto" readonly v-model="selectedAccount.info.tes_application_number" outlined dense label="Application Number"></v-text-field>
        <v-select :items="testype" class="mt-4" hide-details="auto" readonly outlined v-model="selectedAccount.info.tes_grant_type" label="Type of TES Grant" dense></v-select>
-      
+       <p class="mt-6 text-uppercase primary--text">
+        <v-icon color="primary">mdi-note-multiple</v-icon>
+        School Info
+       </p> 
+       <v-divider class="mt-2"></v-divider>
+       <div v-for="(data, i) in selectedAccount.schoolinfo" :key="i">
+           <v-text-field class="pt-2" hide-details="auto" readonly outlined v-model="data.school_year" label="School Year" dense></v-text-field>
+           <v-text-field class="pt-2" hide-details="auto" readonly outlined v-model="data.semester" label="Semester" dense></v-text-field>
+           <v-text-field type="text" class="pt-2" hide-details="auto" readonly v-model="data.gwa" outlined dense label="GWA"></v-text-field>
+           <v-text-field type="number" class="pt-2" hide-details="auto" readonly v-model="data.units" outlined dense label="Units Enrolled"></v-text-field>
+       </div> 
       <v-layout class="mt-5">
          <v-dialog
             v-model="dialogApprove"

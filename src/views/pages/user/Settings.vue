@@ -28,9 +28,6 @@
         <v-text-field type="text" class="mt-4" hide-details="auto" :rules="[rules.required]" v-model="data.last_name" outlined dense label="Last Name"></v-text-field>
         <v-text-field type="text" class="mt-4" hide-details="auto" v-model="data.ext_name" outlined dense label="Last Name"></v-text-field>
         <v-select :items="gender" class="pt-2" hide-details="auto" :rules="[rules.required]" outlined v-model="data.gender" label="Gender" dense></v-select>
-        <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.gwa" outlined dense label="GWA - Previous Sem"></v-text-field>
-        <v-text-field type="number" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.units" outlined dense label="Units Enrolled"></v-text-field>
-
         <v-dialog
             ref="dialog"
             v-model="birthdayModal"
@@ -76,59 +73,84 @@
           <v-icon color="primary">mdi-account-circle</v-icon>
           Grant Type
         </p>
-          <v-text-field type="text" class="mt-4" hide-details="auto" v-model="data.tes_award" outlined dense label="TES Award Number"></v-text-field>
-          <v-text-field type="text" class="mt-4" hide-details="auto" v-model="data.tes_application_number" outlined dense label="Application Number"></v-text-field>
-          <v-select :items="testype" class="mt-4" hide-details="auto" outlined v-model="data.tes_grant_type" label="Type of TES Grant" dense></v-select>
+        <v-text-field type="text" class="mt-4" hide-details="auto" v-model="data.tes_award" outlined dense label="TES Award Number"></v-text-field>
+        <v-text-field type="text" class="mt-4" hide-details="auto" v-model="data.tes_application_number" outlined dense label="Application Number"></v-text-field>
+        <v-select :items="testype" class="mt-4" hide-details="auto" outlined v-model="data.tes_grant_type" label="Type of TES Grant" dense></v-select>
         
-         <p class="mt-4 text-uppercase primary--text">
-            <v-icon color="primary">mdi-account-key</v-icon>
-            Login Credentials
-            </p>
-          <v-divider class="mt-2 mb-5"></v-divider>
-          <v-text-field type="email" class="mt-4 mb-4" hide-details="auto" v-model="data.email" outlined dense label="Primary Email Address">
-            <v-icon v-if="data.email_verified_at" slot="append" color="green">mdi-check</v-icon>
-            <v-icon v-else slot="append" color="red">mdi-window-close</v-icon>
-          </v-text-field>
-          <v-text-field type="password" 
-            clearable 
-            outlined 
-            v-model="data.password" 
-            label="Password"  
-            prepend-inner-icon="mdi-lock" 
-            hint="If empty, password wont be changed"
-            persistent-hint
-            dense>
-          </v-text-field>
-          <v-dialog
-            v-model="dialog"
-            persistent
-            max-width="290">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                color="success darken-1 mt-3"
-                dark
-                v-bind="attrs"
-                v-on="on">
-                Save Changes
+        <p class="mt-6 text-uppercase primary--text">
+          <v-icon color="primary">mdi-note-multiple</v-icon>
+          School Info <small class="secondary--text">- Reload to ignore changes</small>
+        </p> 
+        <v-divider class="mt-2"></v-divider>
+        <div v-for="(data, i) in data.schoolyearinfo" :key="i">
+           <p class="mt-2">Please fill-in this data accurately</p>
+           <v-divider class="mt-2 mb-1"></v-divider>
+           <v-select :items="schoolyear" class="pt-2" hide-details="auto" outlined v-model="data.school_year" label="School Year" dense></v-select>
+           <v-select :items="semester" class="pt-2" hide-details="auto" outlined v-model="data.semester" label="Semester" dense></v-select>
+           <v-text-field type="text" class="pt-2" hide-details="auto" v-model="data.gwa" outlined dense label="GWA"></v-text-field>
+           <v-text-field type="number" class="pt-2" hide-details="auto" v-model="data.units" outlined dense label="Units Enrolled"></v-text-field>
+          <v-btn
+            color="error" class="mt-3 mr-2"
+            v-if="i > 0"
+            @click="removeFields(i)">
+            Remove Fields
+          </v-btn>
+        </div>
+          <v-btn
+            color="primary" class="mt-3 mr-2"
+            @click="addFields">
+            Add Fields
+          </v-btn>
+
+        <p class="mt-4 text-uppercase primary--text">
+          <v-icon color="primary">mdi-account-key</v-icon>
+          Login Credentials
+          </p>
+        <v-divider class="mt-2 mb-5"></v-divider>
+        <v-text-field type="email" class="mt-4 mb-4" hide-details="auto" v-model="data.email" outlined dense label="Primary Email Address">
+          <v-icon v-if="data.email_verified_at" slot="append" color="green">mdi-check</v-icon>
+          <v-icon v-else slot="append" color="red">mdi-window-close</v-icon>
+        </v-text-field>
+        <v-text-field type="password" 
+          clearable 
+          outlined 
+          v-model="data.password" 
+          label="Password"  
+          prepend-inner-icon="mdi-lock" 
+          hint="If empty, password wont be changed"
+          persistent-hint
+          dense>
+        </v-text-field>
+        <v-dialog
+          v-model="dialog"
+          persistent
+          max-width="290">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="success darken-1 mt-3"
+              dark
+              v-bind="attrs"
+              v-on="on">
+              Save Changes
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-title class="text-h5">
+              Update Account
+            </v-card-title>
+            <v-card-text>Enter your current password to save your changes</v-card-text>
+            <v-text-field type="password" hint="Current Password" class="pl-5 pr-5" :rules="[rules.required]" required counter clearable outlined v-model="data.confirm_password" label="Current password" dense></v-text-field>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="grey darken-1" text @click="dialog = false">
+                Cancel
               </v-btn>
-            </template>
-            <v-card>
-              <v-card-title class="text-h5">
-                Update Account
-              </v-card-title>
-              <v-card-text>Enter your current password to save your changes</v-card-text>
-              <v-text-field type="password" hint="Current Password" class="pl-5 pr-5" :rules="[rules.required]" required counter clearable outlined v-model="data.confirm_password" label="Current password" dense></v-text-field>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="grey darken-1" text @click="dialog = false">
-                  Cancel
-                </v-btn>
-                <v-btn  v-on:click.prevent="save" color="green darken-1" text>
-                  Proceed
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
+              <v-btn  v-on:click.prevent="save" color="green darken-1" text>
+                Proceed
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
        </v-form>
        <v-layout class="mt-5">
          <v-dialog
@@ -202,7 +224,88 @@ export default {
         zipcode: '',
         gwa: '',
         academic_units: '',
+        schoolyearinfo: [
+
+        ]
       },
+      schoolyear: [
+         {
+          value: '2016-2017', text: '2016-2017'
+         },
+         {
+          value: '2017-2018', text: '2017-2018'
+         },
+         {
+          value: '2018-2019', text: '2018-2019'
+         },
+         {
+          value: '2019-2020', text: '2019-2020'
+         },
+         {
+          value: '2020-2021', text: '2020-2021'
+         },
+         {
+          value: '2021-2022', text: '2021-2022'
+         },
+         {
+          value: '2022-2023', text: '2022-2023'
+         },
+         {
+          value: '2023-2024', text: '2023-2024'
+         },
+         {
+          value: '2024-2025', text: '2024-2025'
+         },
+         {
+          value: '2025-2026', text: '2025-2026'
+         },
+         {
+          value: '2026-2027', text: '2026-2027'
+         },
+         {
+          value: '2027-2028', text: '2027-2028'
+         },
+         {
+          value: '2028-2029', text: '2028-2029'
+         },
+         {
+          value: '2029-2030', text: '2029-2030'
+         },
+         {
+          value: '2030-2031', text: '2030-2031'
+         },
+         {
+          value: '2031-2032', text: '2031-2032'
+         },
+         {
+          value: '2032-2033', text: '2032-2033'
+         },
+         {
+          value: '2033-2034', text: '2033-2034'
+         },
+         {
+          value: '2034-2035', text: '2034-2035'
+         },
+         {
+          value: '2035-2036', text: '2035-2036'
+         },
+         {
+          value: '2036-2037', text: '2036-2037'
+         },
+         {
+          value: '2037-2038', text: '2037-2038'
+         },
+         {
+          value: '2038-2039', text: '2038-2039'
+         },
+         {
+          value: '2039-2040', text: '2039-2040'
+         },
+       ],
+       semester: [
+         { value: '1st Semester', text: '1st Semester'},
+         { value: '2nd Semester', text: '2nd Semester'},
+       ],
       yearlevel: [{value: 'I', text: 'I'},{value: 'II', text: 'II'},{value: 'III', text: 'III'},{value: 'IV', text: 'IV'},{value: 'V', text: 'V'}],
        programs: [
         {value: '(BEEd) - Bachelor of Elementary Education ', text: '(BEEd) - Bachelor of Elementary Education'},
@@ -268,6 +371,12 @@ export default {
   },
   methods: {
    ...mapActions('auth', ['logoutAuthUser']),
+    removeFields(i){
+      this.data.schoolyearinfo.splice(i, 1)
+    },
+    addFields(){
+      this.data.schoolyearinfo.push({units: '', gwa: '', schoolyear: '', semester: ''})
+    },
    async logout(){
      this.isLoading = true
      const res = await this.logoutAuthUser()
@@ -306,6 +415,9 @@ export default {
      this.data.tes_award = this.user.info.tes_award
      this.data.tes_application_number = this.user.info.tes_application_number
      this.data.tes_grant_type = this.user.info.tes_grant_type
+     this.user.schoolinfo.forEach(data => {
+       this.data.schoolyearinfo.push(data)
+     });
    },
    async save(){
      this.$refs.form.validate()
