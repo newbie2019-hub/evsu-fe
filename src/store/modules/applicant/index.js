@@ -40,6 +40,15 @@ export default {
 
             return res;
         },
+        async moveApplicant({ commit }, data) {
+            const res = await API.put(`/admin/applicant/move/${data.id}`).then(res => {
+                return res;
+            }).catch(err => {
+                return err.response
+            })
+
+            return res;
+        },
         async getApplicants({ commit }, {status, search}) {
             const res = await API.get(`/admin/applicant?status=${status}&search=${search}`).then(res => {
                 commit('SET_APPLICANTS', res.data)

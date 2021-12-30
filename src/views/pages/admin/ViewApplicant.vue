@@ -11,7 +11,8 @@
      <v-col md="7" lg="6" class="mr-6 ml-6">
        <v-layout align-center justify-center class="mt-8">
         <v-avatar color="primary" size="90">
-           <span class="white--text text-h4">{{ selectedApplicant.info.first_name[0] }}{{selectedApplicant.info.last_name[0]}}</span>
+          <img v-if="selectedApplicant.info.image" :src="`http://127.0.0.1:8000/images/${selectedApplicant.info.image}`" height="90" width="90" alt="Profile Image">
+          <span v-else class="white--text text-h5">{{ selectedApplicant.info.first_name[0] }}{{selectedApplicant.info.last_name[0]}}</span>
         </v-avatar>
        </v-layout>
        <v-layout class="mt-2">
@@ -73,41 +74,84 @@
            <v-text-field type="text" class="pt-2" hide-details="auto" readonly v-model="data.gwa" outlined dense label="GWA"></v-text-field>
            <v-text-field type="number" class="pt-2" hide-details="auto" readonly v-model="data.units" outlined dense label="Units Enrolled"></v-text-field>
        </div> 
-      <v-layout class="mt-5">
-         <v-dialog
-            v-model="dialogDelete"
-            persistent
-            max-width="290">
+       <p class="mt-8 text-uppercase primary--text">
+        Options
+       </p> 
+       <v-divider class="mt-2"></v-divider>
+       <v-layout>
+        <v-dialog
+          v-model="dialogCreateAccount"
+          persistent
+          max-width="350">
           <template v-slot:activator="{ on, attrs }">
-           <v-btn small depressed rounded text v-bind="attrs"
-              v-on="on" class="red--text">
-            Delete
-            <v-icon color="red accent-3" right>mdi-delete-empty</v-icon>
-           </v-btn>
+            <v-btn small depressed rounded text v-bind="attrs"
+              v-on="on" class="blue--text mt-2">
+            Move to Users
+            <v-icon color="blue accent-3">mdi-exit-to-app</v-icon>
+            </v-btn>
           </template>
           <v-card>
             <v-card-title class="text-h5">
-              Confirm Delete
+              Confirm
             </v-card-title>
-            <v-card-text>Are you sure you want to delete this applicant?</v-card-text>
+            <v-card-text>
+              By moving to users, you are confirming that this user has been approved by the CHED-Unifast? This will create an account for the user with a default password. 
+              <v-layout>
+                <small class="mt-3">Note: The default password is the birthday + first name of the user <span class="font-weight-black">(e.g., 1999-01-01John)</span></small>
+              </v-layout>
+            </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
                 color="gray"
                 text
-                @click="dialogDelete = false">
+                @click="dialogCreateAccount = false">
                 Cancel
               </v-btn>
               <v-btn
                 color="green darken-3"
                 text
-                @click="deleteApplicant">
+                @click="moveToUsers">
                 Yes
               </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
-       </v-layout> 
+
+          <v-dialog
+              v-model="dialogDelete"
+              persistent
+              max-width="350">
+            <template v-slot:activator="{ on, attrs }">
+            <v-btn small depressed rounded text v-bind="attrs"
+                v-on="on" class="red--text mt-2">
+              Delete User
+              <v-icon color="red accent-3" right>mdi-delete-empty</v-icon>
+            </v-btn>
+            </template>
+            <v-card>
+              <v-card-title class="text-h5">
+                Confirm Delete
+              </v-card-title>
+              <v-card-text>Are you sure you want to delete this applicant?</v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="gray"
+                  text
+                  @click="dialogDelete = false">
+                  Cancel
+                </v-btn>
+                <v-btn
+                  color="green darken-3"
+                  text
+                  @click="deleteApplicant">
+                  Yes
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-layout>
      </v-col>
 
     </v-row>
@@ -120,6 +164,7 @@ export default {
   data(){
     return {
       dialogDelete: false,
+      dialogCreateAccount: false,
       schoolyear: [
          {
           value: '2016-2017', text: '2016-2017'
@@ -201,6 +246,9 @@ export default {
       delete_data: {
         id: ''
       },
+      move_data: {
+        id: ''
+      },
       testype: [
         {
           value: 'Listahanan', text: 'Listahanan'
@@ -222,7 +270,7 @@ export default {
   },
   mounted(){
     document.title = "View Applicant"
-   if(this.selectedApplicant == 0) return this.$router.back()
+    if(this.selectedApplicant == 0) return this.$router.back()
   },
   methods: {
    
@@ -234,6 +282,18 @@ export default {
         this.$toast.success(data.msg)
       }
     },
+    async moveToUsers(){
+      this.isLoading = true
+      this.move_data.id = this.selectedApplicant.id
+      const {status, data} = await this.$store.dispatch('applicant/moveApplicant', this.move_data)
+      if(status == 200){
+        this.$router.back()
+        this.$toast.success(data.msg)
+      }
+      else {
+        this.$toast.error('Something went wrong')
+      }
+    }
   }
 }
 </script>

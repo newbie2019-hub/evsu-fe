@@ -41,8 +41,9 @@
               <v-list-item-content>
                 <v-list-item-title>{{item.info.first_name}} {{item.info.last_name}}</v-list-item-title>
                 <v-list-item-subtitle>{{item.email}}</v-list-item-subtitle>
-                <v-layout>
-                  <v-chip class="white--text mt-1" :color="item.status == 'Unofficial' ? 'red darken-2' : 'green darken-2'" x-small>{{item.status == 'Official' ? 'Officially Enrolled' : 'Unofficial'}}</v-chip>
+                <v-layout class="mt-2">
+                  <small>Enrollment Status: &nbsp;</small>
+                  <v-chip class="white--text" :color="item.status == 'Unofficial' ? 'red darken-2' : 'green darken-2'" x-small>{{item.status == 'Official' ? 'Officially Enrolled' : 'Unofficial'}}</v-chip>
                 </v-layout>
               </v-list-item-content>
             </v-list-item>
