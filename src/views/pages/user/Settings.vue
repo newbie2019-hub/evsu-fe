@@ -6,7 +6,8 @@
        <v-app-bar-nav-icon class="mt-6" @click.stop="setDrawerState"></v-app-bar-nav-icon>
        <v-layout align-center justify-center class="mt-8">
         <v-avatar color="primary" size="90">
-           <span class="white--text text-h5">{{ user.info.first_name[0] }}{{user.info.last_name[0]}}</span>
+          <img v-if="user.info.image" :src="`http://127.0.0.1:8000/images/${user.info.image}`" height="90" width="90" alt="Profile Image">
+          <span v-else class="white--text text-h5">{{ user.info.first_name[0] }}{{user.info.last_name[0]}}</span>
         </v-avatar>
        </v-layout>
        <v-layout class="mt-2">
@@ -15,7 +16,16 @@
           <p class="caption">{{ user.email}}</p>
          </v-col>
        </v-layout>
-
+        <p class="mt-6 text-uppercase primary--text">
+          <v-icon color="primary">mdi-account-circle</v-icon>
+          Profile Image
+        </p>
+        <v-divider class="mt-2"></v-divider>
+        <v-form ref="imageupload" @submit.prevent="uploadProfileImage">
+          <v-file-input type="file" v-model="data.profileimg" show-size accept=".png,.jpg,.jpeg.,.webp,.svg " label="Upload Image" truncate-length="25"></v-file-input>
+          <p class="grey--text text-caption">Note: This will replace your current image if you have.</p>
+          <v-btn type="submit" color="success darken-1 mt-3" dark>Upload</v-btn>
+        </v-form>
         <p class="mt-6 text-uppercase primary--text">
           <v-icon color="primary">mdi-account-circle</v-icon>
           Personal Information
@@ -194,6 +204,8 @@
 </template>
 <script>
 import {mapState, mapActions} from 'vuex'
+import API from '../../../store/base'
+
 export default {
   data() {
     return {
@@ -371,12 +383,35 @@ export default {
   },
   methods: {
    ...mapActions('auth', ['logoutAuthUser']),
-    removeFields(i){
-      this.data.schoolyearinfo.splice(i, 1)
-    },
-    addFields(){
-      this.data.schoolyearinfo.push({units: '', gwa: '', schoolyear: '', semester: ''})
-    },
+   removeFields(i){
+     this.data.schoolyearinfo.splice(i, 1)
+   },
+   addFields(){
+     this.data.schoolyearinfo.push({units: '', gwa: '', schoolyear: '', semester: ''})
+   },
+   async uploadProfileImage(){
+      if(this.data.profileimg){
+        let formData = new FormData();
+
+        formData.append("img", this.data.profileimg);
+
+        await API.post(`user/upload-files/image`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          },
+          }).then(response => {
+            this.data.profileimg = null
+            this.$toast.success(response.data.msg)
+          })
+          .catch(error => {
+            console.log({ error });
+          });
+            await this.$store.dispatch('auth/checkAuthUser')
+      }
+      else {
+        this.$toast.error('Please select an image')
+      }
+   },
    async logout(){
      this.isLoading = true
      const res = await this.logoutAuthUser()

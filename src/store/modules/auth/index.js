@@ -148,6 +148,7 @@ export default {
       return res;
     },
     async registerAccount({commit}, payload){
+
       const res = await API.post('/auth/user/store', payload).then(res => {
 
         return res;

@@ -6,7 +6,8 @@
     <template v-slot:activator="{ on }">
      <v-btn icon v-on="on">
       <v-avatar color="brown" size="52" right class="">
-       <span class="white--text text-h6">{{ user.info.first_name[0] }}{{user.info.last_name[0]}}</span>
+       <img v-if="user.info.image" :src="`http://127.0.0.1:8000/images/${user.info.image}`" height="52" width="52" alt="Profile Image">
+       <span v-else class="white--text text-h5">{{ user.info.first_name[0] }}{{user.info.last_name[0]}}</span>
       </v-avatar>
      </v-btn>
     </template>

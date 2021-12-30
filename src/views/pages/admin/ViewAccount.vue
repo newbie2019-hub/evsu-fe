@@ -11,7 +11,8 @@
      <v-col cols="11" md="8" lg="8" class="mr-6 ml-6">
        <v-layout align-center justify-center class="mt-8">
         <v-avatar color="primary" size="90">
-           <span class="white--text text-h4">{{ selectedAccount.info.first_name[0] }}{{selectedAccount.info.last_name[0]}}</span>
+          <img v-if="selectedAccount.info.image" :src="`http://127.0.0.1:8000/images/${selectedAccount.info.image}`" height="90" width="90" alt="Profile Image">
+          <span v-else class="white--text text-h5">{{ selectedAccount.info.first_name[0] }}{{selectedAccount.info.last_name[0]}}</span>
         </v-avatar>
        </v-layout>
        <v-layout class="mt-2">
@@ -19,7 +20,20 @@
           <h2 class="">{{ selectedAccount.info.first_name }} {{selectedAccount.info.last_name}}</h2>
           <p class="">{{ selectedAccount.email}}</p>
           <p class="">Date Registered: {{ selectedAccount.created_at}}</p>
-          <v-chip class="white--text mt-1" :color="selectedAccount.enrollment_status == 'Unofficial' ? 'red darken-2' : 'green darken-2'" x-small>{{selectedAccount.enrollment_status}}</v-chip>
+          <v-layout align-center justify-center class="mt-3" column>
+            <v-layout>
+              <small>Enrollment Status:&nbsp;</small> 
+              <v-chip class="white--text" :color="selectedAccount.enrollment_status == 'Unofficial' ? 'red darken-2' : 'green darken-2'" x-small>
+                {{selectedAccount.enrollment_status}}
+              </v-chip>
+            </v-layout>
+            <v-layout>
+              <small>TES Status:&nbsp;</small> 
+              <v-chip class="white--text" :color="selectedAccount.tes_status == 'No Records Found' ? 'red darken-2' : 'green darken-2'" x-small>
+                {{selectedAccount.tes_status}}
+              </v-chip>
+            </v-layout>
+          </v-layout>
          </v-col>
        </v-layout>
        <p class="mt-6 text-uppercase primary--text">

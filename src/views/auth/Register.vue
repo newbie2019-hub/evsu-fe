@@ -25,7 +25,8 @@
              Student Data
            </v-stepper-step>
            <v-stepper-content step="1">
-             <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.student_id" outlined dense label="Student ID"></v-text-field>
+             <v-file-input type="file" class="pt-3" v-model="data.profileimg" hide-details="auto" outlined  dense show-size accept=".png,.jpg,.jpeg.,.webp,.svg " label="Upload Image" truncate-length="25"></v-file-input>
+             <v-text-field type="text" class="pt-3" hide-details="auto" :rules="[rules.required]" v-model="data.student_id" outlined dense label="Student ID"></v-text-field>
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.first_name" outlined dense label="First Name"></v-text-field>
              <v-text-field type="text" class="pt-2" hide-details="auto" v-model="data.middle_name" outlined dense label="Middle Name"></v-text-field>
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.last_name" outlined dense label="Last Name"></v-text-field>
@@ -170,6 +171,8 @@
  </div>
 </template>
 <script>
+import API from '../../store/base'
+
 export default {
    data () {
      return {
@@ -255,6 +258,12 @@ export default {
          {
           value: '2039-2040', text: '2039-2040'
          },
+         {
+          value: '2040-2041', text: '2040-2041'
+         },
+         {
+          value: '2041-2042', text: '2042-2042'
+         },
        ],
        semester: [
          { value: '1st Semester', text: '1st Semester'},
@@ -264,6 +273,7 @@ export default {
        isValid: false,
        date: '',
        data: {
+        profileimg: null,
         first_name: '',
         middle_name: '',
         birthday: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
@@ -351,6 +361,9 @@ export default {
        ],
      }
    },
+   mounted(){
+     document.title = 'Create Account'
+   },
    created(){
     // testData()
    },
@@ -366,13 +379,30 @@ export default {
      if(this.isValid){
       this.isLoading = true
 
+      let formData = new FormData();
+
+      formData.append("img", this.data.profileimg);
+
+      await API.post(`user/upload-files/profile`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        },
+        }).then(response => {
+          console.log(response.data)
+          this.data['img'] = response.data
+        })
+        .catch(error => {
+            console.log({ error });
+        });
+
       const {status, data} = await this.$store.dispatch('auth/registerAccount', this.data)
       if (status == 422) {
           this.UnprocEntity(data)
       } else if (status == 200) {
+        this.$toast.success('An email verification has been sent to your email. Please check your email')
          this.successResponse(data)
          this.$router.back()
-      } else {
+      } else { 
           this.errResponse(data)
       }
 

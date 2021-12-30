@@ -14,7 +14,7 @@ Vue.mixin(vresponse)
 
 Vue.use(Toast, {
   position: "top-center",
-  timeout: 2000,
+  timeout: 4500,
   closeOnClick: true,
   pauseOnFocusLoss: true,
   pauseOnHover: true,

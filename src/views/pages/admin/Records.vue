@@ -35,7 +35,8 @@
           <v-card flat v-for="item in items" :key="item.id" class="mt-4" @click="setViewRecord(item)">
             <v-list-item class="grow">
               <v-list-item-avatar color="grey darken-3">
-              <span class="white--text subtitle-2">{{item.info.first_name[0]}}{{item.info.last_name[0]}}</span>
+                <img v-if="item.info.image" :src="`http://127.0.0.1:8000/images/${item.info.image}`" height="90" width="90" alt="Profile Image">
+                <span v-else class="white--text text-h5">{{ item.info.first_name[0] }}{{item.info.last_name[0]}}</span>
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title>{{item.info.first_name}} {{item.info.last_name}}</v-list-item-title>
@@ -95,6 +96,8 @@ export default {
      await this.$store.dispatch('applicant/getApplicants', {status: this.selectedStatus, search: this.search});
    },
    async exportData(){
+     if(this.applicants.length == 0) return this.$toast.error('No data has been found for export')
+
      this.isLoading = true
      const res = await this.$store.dispatch('applicant/exportData', this.selectedStatus)
      const url = window.URL.createObjectURL(new Blob([res.data]));
@@ -106,7 +109,7 @@ export default {
      link.click()
 
      //Enable for mobile application
-    //  await Browser.open({ url: `https://be.tesgrant.info/api/admin/records/export?status=${this.selectedStatus}` });
+     await Browser.open({ url: `https://be.tesgrant.info/api/admin/records/export?status=${this.selectedStatus}` });
 
      this.isLoading = false
    }

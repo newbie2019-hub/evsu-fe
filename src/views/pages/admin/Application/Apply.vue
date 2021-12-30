@@ -10,7 +10,7 @@
         Return
       </v-btn>
       <v-layout class="pl-6 mt-5">
-       <p class="headline">TES Form</p>
+       <p class="headline">TES Application Form</p>
       </v-layout>
       <v-layout class="pl-6 pr-5">
        <p class="subtitle-2">The SASO office would like you to submit some of your informations. Please fill out the fields below</p>
@@ -18,7 +18,7 @@
       <v-layout class="pl-6 pr-5">
        <p class="subtitle-2 mt-4 red--text" v-if="!isValid">All fields are required!</p>
       </v-layout>
-      <v-form ref="form" @submit.prevent="apply">
+      <v-form ref="form">
         <v-stepper class="mt-2" flat v-model="currentStep" vertical non-linear>
            <v-stepper-step editable
              step="1">
@@ -26,6 +26,7 @@
            </v-stepper-step>
 
            <v-stepper-content step="1">
+             <v-file-input type="file" class="pt-3" v-model="data.profileimg" hide-details="auto" outlined  dense show-size accept=".png,.jpg,.jpeg.,.webp,.svg " label="Profile Image" truncate-length="25"></v-file-input>
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.student_id" outlined dense label="Student ID"></v-text-field>
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.first_name" outlined dense label="First Name"></v-text-field>
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required]" v-model="data.middle_name" outlined dense label="Middle Name"></v-text-field>
@@ -149,7 +150,8 @@
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required, rules.mobile]"  v-model="data.contact_number1" outlined dense label="Primary Contact Number"></v-text-field>
              <v-text-field type="text" class="pt-2" hide-details="auto" :rules="[rules.required, rules.mobile]"  v-model="data.contact_number2" outlined dense label="Secondary Contact Number"></v-text-field>
              
-             <v-btn type="submit" small color="primary" :loading="isLoading" class="mt-3 mr-2">
+             
+             <v-btn type="button" @click.prevent="dialog = true" small color="primary" :loading="isLoading" class="mt-3 mr-2">
                Submit
              </v-btn>
              <v-btn type="button" @click.prevent="$router.back()" small color="grey" class="mt-3">
@@ -163,14 +165,47 @@
      </v-col>
     </v-row>
    </v-container>
+
+   <v-dialog
+      v-model="dialog"
+      max-width="290">
+      <v-card>
+        <v-card-title class="text-h5">
+          Confirm Application
+        </v-card-title>
+
+        <v-card-text>
+          Are you willing to send your data to be part of the TES grantees?
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="dialog = false">
+            Cancel
+          </v-btn>
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click.prevent="apply">
+            Agree
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
  </div>
 </template>
 <script>
-import API from '../../../../store/base/index'
-import testData from '@/assets/js/train.js'
+import API from '../../../../store/base'
+
 export default {
    data () {
      return {
+       dialog: false,
        birthdayModal: false,
        rules: {
          required: value => !!value || 'Required.',
@@ -359,10 +394,27 @@ export default {
       this.data.schoolyearinfo.push({units: '', gwa: '', schoolyear: '', semester: ''})
     },
     async apply(){
+     this.dialog = false
      this.isValid = this.$refs.form.validate()
      if(this.isValid){
     
-       this.isLoading = true
+      this.isLoading = true
+
+      let formData = new FormData();
+
+      formData.append("img", this.data.profileimg);
+
+      await API.post(`user/upload-files/profile`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        },
+        }).then(response => {
+          console.log(response.data)
+          this.data['img'] = response.data
+        })
+        .catch(error => {
+            console.log({ error });
+        });
 
        const {data, status} = await this.$store.dispatch('applicant/saveApplicant', this.data)
        this.checkStatus(data, status, '', 'updates/getApplicants')
@@ -376,7 +428,7 @@ export default {
      }
      else {
       this.$toast.error('Please fill in all the fields')
-      this.isLoading = true
+      this.isLoading = false
      }
        this.isLoading = false
 

@@ -37,7 +37,8 @@
           <v-card flat v-for="item in items" :key="item.id" class="mt-4" @click="setViewRecord(item)">
             <v-list-item class="grow">
               <v-list-item-avatar color="grey darken-3">
-              <span class="white--text subtitle-2">{{item.info.first_name[0]}}{{item.info.last_name[0]}}</span>
+                <img v-if="item.info.image" :src="`http://127.0.0.1:8000/images/${item.info.image}`" alt="Profile Image">
+                <span v-else class="white--text text-h5">{{ item.info.first_name[0] }}{{item.info.last_name[0]}}</span>
               </v-list-item-avatar>
               <v-list-item-content>
                <v-list-item-title>{{item.info.first_name}} {{item.info.last_name}}</v-list-item-title>
@@ -60,6 +61,8 @@
 </template>
 <script>
 import UserAvatar from '../../components/UserAvatar.vue'
+import { Browser } from '@capacitor/browser';
+
 import { mapState } from 'vuex';
 export default {
   data(){
@@ -95,7 +98,7 @@ export default {
       link.click()
 
       //Enable for mobile application
-      //  await Browser.open({ url: `https://be.tesgrant.info/api/admin/accounts/export?status=${this.selectedStatus}` });
+       await Browser.open({ url: `https://be.tesgrant.info/api/admin/accounts/export?status=${this.selectedStatus}` });
 
       this.isLoading = false
    },
